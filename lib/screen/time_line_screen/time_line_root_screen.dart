@@ -1,17 +1,18 @@
-import 'package:book_instagram_for_firebase/screen/home_screen/home_screen/home_image_screen.dart';
-import 'package:book_instagram_for_firebase/screen/home_screen/home_screen/home_screen.dart';
+
 import 'package:book_instagram_for_firebase/screen/post_screen/post_screen.dart';
+import 'package:book_instagram_for_firebase/screen/time_line_screen/time_line_image_screen.dart';
+import 'package:book_instagram_for_firebase/screen/time_line_screen/time_line_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeRootScreen extends StatefulWidget {
-  const HomeRootScreen({Key? key}) : super(key: key);
+class TimeLineRootScreen extends StatefulWidget {
+  const TimeLineRootScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeRootScreenState createState() => _HomeRootScreenState();
+  _TimeLineRootScreenState createState() => _TimeLineRootScreenState();
 }
 
-class _HomeRootScreenState extends State<HomeRootScreen>
+class _TimeLineRootScreenState extends State<TimeLineRootScreen>
     with SingleTickerProviderStateMixin {
   final List<Tab> tabs = <Tab>[
     const Tab(text: 'Home'),
@@ -19,8 +20,8 @@ class _HomeRootScreenState extends State<HomeRootScreen>
   ];
 
   List<Widget> pageList = [
-    const HomeScreen(),
-    const HomeImageScreen(),
+    const TimeLineScreen(),
+    const TimeLineImageScreen(),
   ];
   late TabController controller;
 

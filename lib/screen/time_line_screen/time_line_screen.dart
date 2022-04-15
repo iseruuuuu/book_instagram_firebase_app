@@ -4,16 +4,16 @@ import 'package:book_instagram_for_firebase/model/account.dart';
 import 'package:book_instagram_for_firebase/model/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../children/cell_items.dart';
+import 'children/cell_items.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class TimeLineScreen extends StatefulWidget {
+  const TimeLineScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _TimeLineScreenState createState() => _TimeLineScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _TimeLineScreenState extends State<TimeLineScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

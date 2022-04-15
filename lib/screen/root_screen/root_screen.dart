@@ -1,5 +1,5 @@
-import 'package:book_instagram_for_firebase/screen/home_screen/home_root_screen/home_root_screen.dart';
-import 'package:book_instagram_for_firebase/screen/my_page_screen/my_root_screen/my_page_root_screen.dart';
+import 'package:book_instagram_for_firebase/screen/my_page_screen/my_page_root_screen.dart';
+import 'package:book_instagram_for_firebase/screen/time_line_screen/time_line_root_screen.dart';
 import 'package:flutter/material.dart';
 
 class RootScreen extends StatefulWidget {
@@ -12,7 +12,7 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   int selectedIndex = 0;
   List<Widget> pageList = [
-    const HomeRootScreen(),
+    const TimeLineRootScreen(),
     const MyPageRootScreen(),
   ];
 

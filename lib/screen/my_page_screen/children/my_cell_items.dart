@@ -2,11 +2,11 @@ import 'package:book_instagram_for_firebase/firebase/post_firebase.dart';
 import 'package:book_instagram_for_firebase/model/account.dart';
 import 'package:book_instagram_for_firebase/model/post.dart';
 import 'package:book_instagram_for_firebase/screen/time_line_details/time_line_details.dart';
+import 'package:book_instagram_for_firebase/screen/time_line_screen/children/border_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import '../../home_screen/children/border_item.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 
 class MyCellItems extends StatefulWidget {

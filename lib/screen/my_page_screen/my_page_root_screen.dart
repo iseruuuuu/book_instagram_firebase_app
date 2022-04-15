@@ -2,11 +2,12 @@ import 'package:book_instagram_for_firebase/firebase/authentication.dart';
 import 'package:book_instagram_for_firebase/model/account.dart';
 import 'package:book_instagram_for_firebase/screen/account_screen/edit_screen.dart';
 import 'package:book_instagram_for_firebase/screen/post_screen/post_screen.dart';
+import 'package:book_instagram_for_firebase/screen/setting_screen/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../my_page_image_screen.dart';
-import '../my_page_screen.dart';
+import 'my_page_image_screen.dart';
+import 'my_page_screen.dart';
 
 class MyPageRootScreen extends StatefulWidget {
   const MyPageRootScreen({Key? key}) : super(key: key);
@@ -85,7 +86,8 @@ class _MyPageRootScreenState extends State<MyPageRootScreen>
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const EditScreen(),
+                  // builder: (context) => const EditScreen(),
+                  builder: (context) => const SettingScreen(),
                 ),
               );
             },

@@ -3,7 +3,7 @@ import 'package:book_instagram_for_firebase/firebase/post_firebase.dart';
 import 'package:book_instagram_for_firebase/firebase/user_firebase.dart';
 import 'package:book_instagram_for_firebase/model/account.dart';
 import 'package:book_instagram_for_firebase/model/post.dart';
-import 'package:book_instagram_for_firebase/screen/home_screen/children/image_cell_item.dart';
+import 'package:book_instagram_for_firebase/screen/time_line_screen/children/image_cell_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
