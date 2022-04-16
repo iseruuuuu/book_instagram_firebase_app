@@ -12,7 +12,7 @@ class FunctionUtils {
 
   static Future<dynamic> getImageFromCamera() async {
     ImagePicker picker = ImagePicker();
-    final pickedFile =  await picker.pickImage(source: ImageSource.camera);
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
     return pickedFile;
   }
 

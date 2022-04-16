@@ -1,4 +1,5 @@
 import 'package:book_instagram_for_firebase/screen/account_screen/edit_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -46,11 +47,14 @@ class SettingScreen extends StatelessWidget {
                       'https://docs.google.com/forms/d/e/1FAIpQLScvyVmwmzc_acPaCKaM0EER7iNP7zxL0YJsGqV7saEqdT8M1g/viewform?usp=sf_link';
                   if (await canLaunch(url)) {
                     await launch(url);
-                  } else if (await canLaunch(url)) {
-                    // 最初のURLが開けなかった場合かつセカンドURLが有って開けた場合
-                    await launch(url);
                   } else {
-                    // 任意のエラー処理
+                    openDialog(
+                      context: context,
+                      title: 'URLエラー',
+                      content: 'URLが開けませんでした。\n'
+                          'もう一度押してみるか、\n'
+                          '一度アプリを再起動してみてください。',
+                    );
                   }
                 },
               ),
@@ -60,6 +64,13 @@ class SettingScreen extends StatelessWidget {
                 onPressed: (context) async {
                   if (await inAppReview.isAvailable()) {
                     inAppReview.requestReview();
+                  } else {
+                    openDialog(
+                      context: context,
+                      title: 'レビューができませんでした。',
+                      content: 'レビューができませんでした。\n'
+                          'お手数ですが、もう一度お試しください',
+                    );
                   }
                 },
               ),
@@ -67,6 +78,29 @@ class SettingScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void openDialog(
+      {required BuildContext context,
+      required String title,
+      required String content}) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
