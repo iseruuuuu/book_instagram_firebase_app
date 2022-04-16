@@ -14,6 +14,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   community_material_icon: ^5.9.55
   settings_ui: ^2.0.2
+  url_launcher: ^6.0.18
+  in_app_review: ^2.0.4
 
 dev_dependencies:
   flutter_test:
