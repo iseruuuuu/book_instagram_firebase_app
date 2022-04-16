@@ -16,6 +16,7 @@ dependencies:
   settings_ui: ^2.0.2
   url_launcher: ^6.0.18
   in_app_review: ^2.0.4
+  pull_to_refresh: ^2.0.0
 
 dev_dependencies:
   flutter_test:
