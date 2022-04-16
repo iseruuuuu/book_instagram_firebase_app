@@ -1,4 +1,6 @@
+import 'package:book_instagram_for_firebase/firebase/authentication.dart';
 import 'package:book_instagram_for_firebase/screen/account_screen/edit_screen.dart';
+import 'package:book_instagram_for_firebase/screen/account_screen/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -20,7 +22,7 @@ class SettingScreen extends StatelessWidget {
             tiles: <SettingsTile>[
               SettingsTile.navigation(
                 leading: const Icon(Icons.person),
-                title: const Text('アカウント'),
+                title: const Text('アカウント編集'),
                 onPressed: (context) {
                   Navigator.push(
                     context,
@@ -76,15 +78,55 @@ class SettingScreen extends StatelessWidget {
               ),
             ],
           ),
+          SettingsSection(
+            title: const Text('ログアウト'),
+            tiles: <SettingsTile>[
+              SettingsTile.navigation(
+                leading: const Icon(Icons.person),
+                title: const Text('ログアウト'),
+                onPressed: (context) {
+                  logOutDialog(
+                    context: context,
+                    title: 'ログアウト確認',
+                    content: 'ログアウトしてもよろしいですか？\n'
+                        '再度ログインすることで利用することができます',
+                    onPressed: () {
+                      Authentication.signOut();
+                      while (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+          SettingsSection(
+            title: const Text('アカウント削除'),
+            tiles: <SettingsTile>[
+              SettingsTile.navigation(
+                leading: const Icon(Icons.person),
+                title: const Text('アカウント削除'),
+                onPressed: (context) {},
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
 
-  void openDialog(
-      {required BuildContext context,
-      required String title,
-      required String content}) {
+  void openDialog({
+    required BuildContext context,
+    required String title,
+    required String content,
+  }) {
     showCupertinoDialog(
       context: context,
       builder: (context) {
@@ -97,6 +139,40 @@ class SettingScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void logOutDialog({
+    required BuildContext context,
+    required String title,
+    required String content,
+    Function()? onPressed,
+  }) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text(
+                "キャンセル",
+                style: TextStyle(
+                  color: Colors.redAccent,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            CupertinoDialogAction(
+              child: const Text("OK"),
+              onPressed: onPressed,
             ),
           ],
         );
