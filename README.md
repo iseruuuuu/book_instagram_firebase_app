@@ -4,10 +4,11 @@
 
 - [x] 文字数によってバグらないかを確認する。(my_cell_items)
 - [ ] 「・・・」このアイコンを探す(my_cell_items)
-- [ ] ダイアログを作成する(login_screen)
+- [x] ダイアログを作成する(login_screen)
 - [ ] ダイアログで、画像を選択するか写真を選択するかのダイアログを出す(register_screen)
 - [ ] ダイアログで、画像を選択するか写真を選択するかのダイアログを出す(register_screen)
 - [ ] 画像が全てアップロードできるかを確認する(register_screen)
+- [ ] 投稿内容が足りていない時のダイアログを出現する(register_screen)
 - [ ] 追加ボタンのデザインを考え直す(time_line_root_screen)
 - [ ] Loading画面を作る(time_line_screen)
 - [ ] Loading画面を作る(time_line_image_screen)
