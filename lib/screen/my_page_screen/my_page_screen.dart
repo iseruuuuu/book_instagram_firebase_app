@@ -5,8 +5,8 @@ import 'package:book_instagram_for_firebase/model/account.dart';
 import 'package:book_instagram_for_firebase/model/post.dart';
 import 'package:book_instagram_for_firebase/screen/my_page_screen/children/my_cell_items.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'children/no_list_item.dart';
 
 class MyPageScreen extends StatefulWidget {
@@ -21,7 +21,9 @@ class _MyPageScreenState extends State<MyPageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO Loading画面を作る
     return Scaffold(
+      backgroundColor: CupertinoColors.secondarySystemBackground,
       body: Column(
         children: [
           Expanded(
@@ -39,7 +41,6 @@ class _MyPageScreenState extends State<MyPageScreen> {
                       return snapshot.data!.docs[index].id;
                     },
                   );
-
                   if (myPostIds.isNotEmpty) {
                     return FutureBuilder<List<Post>?>(
                       future: PostFireStore.getPostsFromIds(myPostIds),

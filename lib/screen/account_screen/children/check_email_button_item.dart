@@ -15,19 +15,14 @@ class CheckEmailButtonItem extends StatelessWidget {
       width: 300,
       height: 50,
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          primary: Colors.yellow,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
+        style: ElevatedButton.styleFrom(primary: Colors.lightBlueAccent),
         onPressed: onTap,
         child: Text(
           '認証完了',
           style: TextStyle(
             color: Colors.black,
             fontSize: 20.w,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.normal,
           ),
         ),
       ),

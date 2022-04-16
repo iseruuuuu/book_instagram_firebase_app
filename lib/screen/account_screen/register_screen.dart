@@ -1,16 +1,18 @@
 import 'dart:io';
-
 import 'package:book_instagram_for_firebase/firebase/authentication.dart';
 import 'package:book_instagram_for_firebase/firebase/post_firebase.dart';
 import 'package:book_instagram_for_firebase/firebase/user_firebase.dart';
 import 'package:book_instagram_for_firebase/model/account.dart';
 import 'package:book_instagram_for_firebase/utils/funciton_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'check_email_screen.dart';
 import 'children/text_field_item.dart';
 import 'package:dotted_border/dotted_border.dart';
+
+import 'children/user_id_text_field.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -20,18 +22,19 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController userIDController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passController = TextEditingController();
   File? image;
   String? imagePath;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CupertinoColors.secondarySystemBackground,
       appBar: AppBar(
-        backgroundColor: Colors.yellow,
+        backgroundColor: CupertinoColors.secondarySystemBackground,
         title: const Text(
           '新規登録',
           style: TextStyle(
@@ -44,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Navigator.of(context).pop();
           },
           icon: Icon(
-            Icons.arrow_back,
+            Icons.arrow_back_ios,
             color: Colors.black,
             size: 30.w,
           ),
@@ -58,6 +61,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               const SizedBox(height: 30),
               (image == null)
+                  //TODO ダイアログで、画像を選択するか写真を選択するかのダイアログを出す
+                  //TODO  画像が全てアップロードできるかを確認する
                   ? GestureDetector(
                       onTap: () async {
                         var result = await FunctionUtils.getImageFromGallery();
@@ -74,6 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     )
+                  //TODO ダイアログで、画像を選択するか写真を選択するかのダイアログを出す
                   : GestureDetector(
                       onTap: () async {
                         var result = await FunctionUtils.getImageFromGallery();
@@ -108,7 +114,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  TextFieldItem(
+                  UserIdTextFieldItem(
                     controller: userIDController,
                     hintText: 'ユーザーID',
                     maxLength: 15,
@@ -125,12 +131,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: 'パスワード',
                 maxLength: 15,
               ),
+              SizedBox(height: 15.w),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1.2,
-                height: 40.w,
+                height: 50.w,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.yellow,
+                    primary: Colors.lightBlueAccent,
+                    onPrimary: Colors.lightBlueAccent,
                   ),
                   onPressed: () async {
                     if (emailController.text.isNotEmpty &&

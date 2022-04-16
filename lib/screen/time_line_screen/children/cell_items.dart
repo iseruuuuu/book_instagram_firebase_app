@@ -57,7 +57,7 @@ class _CellItemsState extends State<CellItems> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                        right: 5.w, left: 15.w, top: 15.w, bottom: 15.w),
+                        left: 12.w, top: 15.w, bottom: 15.w, right: 10.w),
                     child: Row(
                       children: [
                         CircleAvatar(
@@ -66,7 +66,7 @@ class _CellItemsState extends State<CellItems> {
                               NetworkImage(widget.postAccount.image),
                           backgroundColor: Colors.transparent,
                         ),
-                        SizedBox(width: 5.w),
+                        SizedBox(width: 10.w),
                         Text(
                           widget.postAccount.name,
                           style: TextStyle(
@@ -87,12 +87,6 @@ class _CellItemsState extends State<CellItems> {
                           ),
                         ),
                         SizedBox(width: 10.w),
-                        (widget.isMyAccount)
-                            ? IconButton(
-                                onPressed: openDeleteDialog,
-                                icon: const Icon(Icons.menu),
-                              )
-                            : Container(),
                       ],
                     ),
                   ),
@@ -108,12 +102,27 @@ class _CellItemsState extends State<CellItems> {
                     ),
                   ),
                   Padding(
+                    padding: EdgeInsets.only(
+                      top: 15.w,
+                      right: 15.w,
+                      left: 15.w,
+                    ),
+                    child: Text(
+                      widget.post.title,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.w,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
                       widget.post.comment,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.black,
-                        fontSize: 15,
+                        fontSize: 15.w,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -124,46 +133,6 @@ class _CellItemsState extends State<CellItems> {
           ],
         ),
       ),
-    );
-  }
-
-  void openDeleteDialog() {
-    showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          title: const Text("投稿を削除"),
-          content: const Text("本当にこの投稿を削除してもよろしいですか？"),
-          actions: [
-            CupertinoDialogAction(
-              child: const Text(
-                "Cancel",
-                style: TextStyle(
-                  color: Colors.blue,
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            CupertinoDialogAction(
-              child: const Text(
-                "Delete",
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-              ),
-              onPressed: () {
-                PostFireStore.deletePost(
-                  widget.post,
-                  widget.postAccount,
-                );
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

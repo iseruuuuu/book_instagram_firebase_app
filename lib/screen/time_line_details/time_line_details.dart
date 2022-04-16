@@ -26,26 +26,30 @@ class _TimeLineDetailScreenState extends State<TimeLineDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CupertinoColors.secondarySystemBackground,
       appBar: AppBar(
-        // backgroundColor: Colors.yellow,
-        backgroundColor: Colors.white,
+        backgroundColor: CupertinoColors.secondarySystemBackground,
         leading: IconButton(
           iconSize: 30.w,
           onPressed: () {
             Navigator.of(context).pop();
           },
           icon: const Icon(
-            Icons.arrow_back,
+            Icons.arrow_back_ios,
             color: Colors.black,
           ),
         ),
         actions: [
-          IconButton(
-            iconSize: 30.w,
+          TextButton(
             onPressed: openDeleteDialog,
-            icon: const Icon(Icons.delete),
-            color: Colors.black,
-          )
+            child: const Text(
+              '・・・',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
         ],
         centerTitle: true,
         elevation: 0,
@@ -53,78 +57,64 @@ class _TimeLineDetailScreenState extends State<TimeLineDetailScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Column(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.width,
-                          child: Image.network(
-                            widget.post.image,
-                            fit: BoxFit.fill,
-                          ),
+            SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width,
+                      child: Image.network(
+                        widget.post.image,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30.w),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
+                    child: Text(
+                      widget.post.title,
+                      style: TextStyle(
+                        fontSize: 25.w,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                    ),
+                    child: Text(
+                      DateFormat('yyyy/MM/dd').format(
+                        widget.post.createTime!.toDate(),
+                      ),
+                      style: TextStyle(
+                        fontSize: 15.w,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
+                    child: Center(
+                      child: Text(
+                        widget.post.comment,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.w,
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.star_border),
-                            color: Colors.black,
-                            iconSize: 40.w,
-                            onPressed: () {},
-                          ),
-                          // IconButton(
-                          //   icon: const Icon(Icons.messenger_outline),
-                          //   color: Colors.black,
-                          //   iconSize: 35.w,
-                          //   onPressed: () {},
-                          // ),
-                          IconButton(
-                            icon: const Icon(Icons.share),
-                            color: Colors.black,
-                            iconSize: 35.w,
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 30.w),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            widget.post.title,
-                            style: TextStyle(
-                              fontSize: 25.w,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            DateFormat('yyyy/MM/dd').format(
-                              widget.post.createTime!.toDate(),
-                            ),
-                            style: TextStyle(
-                              fontSize: 15.w,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(20.0.w),
-                        child: Center(child: Text(widget.post.comment)),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -137,12 +127,18 @@ class _TimeLineDetailScreenState extends State<TimeLineDetailScreen> {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: const Text("投稿を削除"),
-          content: const Text("本当にこの投稿を削除してもよろしいですか？"),
+          title: const Text("投稿の削除の確認"),
+          content: Text(
+            "\nこの投稿を削除します。\n"
+            "よろしいですか？\n",
+            style: TextStyle(
+              fontSize: 17.w,
+            ),
+          ),
           actions: [
             CupertinoDialogAction(
               child: const Text(
-                "Cancel",
+                "キャンセル",
                 style: TextStyle(
                   color: Colors.blue,
                 ),
@@ -153,7 +149,7 @@ class _TimeLineDetailScreenState extends State<TimeLineDetailScreen> {
             ),
             CupertinoDialogAction(
               child: const Text(
-                "Delete",
+                "OK",
                 style: TextStyle(
                   color: Colors.red,
                 ),

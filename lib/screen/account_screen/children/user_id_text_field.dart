@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class PostTextField extends StatelessWidget {
-  const PostTextField({
+class UserIdTextFieldItem extends StatelessWidget {
+  const UserIdTextFieldItem({
     Key? key,
     required this.controller,
     required this.hintText,
@@ -18,10 +18,13 @@ class PostTextField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.w),
       child: SizedBox(
-        width: 300.w,
+        width: 280.w,
         child: TextField(
           controller: controller,
-          style: TextStyle(fontSize: 20.w),
+          style: TextStyle(
+            fontSize: 20.w,
+            fontWeight: FontWeight.bold,
+          ),
           autocorrect: false,
           decoration: InputDecoration(hintText: hintText),
           maxLength: maxLength,

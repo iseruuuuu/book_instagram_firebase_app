@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:community_material_icon/community_material_icon.dart';
 
 class MyCellItems extends StatefulWidget {
   const MyCellItems({
@@ -56,9 +55,7 @@ class _MyCellItemsState extends State<MyCellItems> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 10.w,
-                  ),
+                  SizedBox(height: 10.w),
                   Padding(
                     padding: EdgeInsets.only(right: 5.w, left: 15.w),
                     child: Row(
@@ -71,6 +68,7 @@ class _MyCellItemsState extends State<MyCellItems> {
                         ),
                         SizedBox(width: 5.w),
                         Text(
+                          //TODO 文字数によってバグらないかを確認する。
                           widget.postAccount.name,
                           style: TextStyle(
                             fontSize: 20.w,
@@ -93,8 +91,8 @@ class _MyCellItemsState extends State<MyCellItems> {
                         (widget.isMyAccount)
                             ? GestureDetector(
                                 onTap: openDeleteDialog,
-                                // child: Icon(CommunityMaterialIcons.image),
                                 child: Text(
+                                  //TODO このアイコンを探す
                                   '・・・',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -145,7 +143,7 @@ class _MyCellItemsState extends State<MyCellItems> {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: const Text("投稿を削除"),
+          title: const Text("投稿の削除確認"),
           content: const Text("本当にこの投稿を削除してもよろしいですか？"),
           actions: [
             CupertinoDialogAction(

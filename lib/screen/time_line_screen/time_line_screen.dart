@@ -2,7 +2,9 @@ import 'package:book_instagram_for_firebase/firebase/post_firebase.dart';
 import 'package:book_instagram_for_firebase/firebase/user_firebase.dart';
 import 'package:book_instagram_for_firebase/model/account.dart';
 import 'package:book_instagram_for_firebase/model/post.dart';
+import 'package:book_instagram_for_firebase/screen/my_page_screen/children/no_list_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'children/cell_items.dart';
 
@@ -14,9 +16,11 @@ class TimeLineScreen extends StatefulWidget {
 }
 
 class _TimeLineScreenState extends State<TimeLineScreen> {
+  //TODO  Loading画面を作る
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CupertinoColors.secondarySystemBackground,
       body: StreamBuilder<QuerySnapshot>(
         stream: PostFireStore.posts
             .orderBy('created_time', descending: true)
@@ -30,41 +34,47 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
                 postAccountIds.add(data['post_account_id']);
               }
             }
-            return FutureBuilder<Map<String, Account>?>(
-              future: UserFireStore.getPostUserMap(postAccountIds),
-              builder: (context, userSnapshot) {
-                if (userSnapshot.hasData &&
-                    userSnapshot.connectionState == ConnectionState.done) {
-                  return ListView.builder(
-                    itemCount: postSnapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      Map<String, dynamic> data =
-                          postSnapshot.data!.docs[index].data();
-                      Post post = Post(
-                        id: postSnapshot.data!.docs[index].id,
-                        postAccountId: data['post_account_id'],
-                        createTime: data['created_time'],
-                        image: data['image'],
-                        title: data['title'],
-                        comment: data['comment'],
-                      );
-                      Account postAccount =
-                          userSnapshot.data![post.postAccountId]!;
-                      return CellItems(
-                        index: index,
-                        postAccount: postAccount,
-                        post: post,
-                        isMyAccount: false,
-                      );
-                    },
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            );
+            if (postAccountIds.isNotEmpty) {
+              return FutureBuilder<Map<String, Account>?>(
+                future: UserFireStore.getPostUserMap(postAccountIds),
+                builder: (context, userSnapshot) {
+                  if (userSnapshot.hasData &&
+                      userSnapshot.connectionState == ConnectionState.done) {
+                    return ListView.builder(
+                      itemCount: postSnapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        Map<String, dynamic> data =
+                            postSnapshot.data!.docs[index].data();
+                        Post post = Post(
+                          id: postSnapshot.data!.docs[index].id,
+                          postAccountId: data['post_account_id'],
+                          createTime: data['created_time'],
+                          image: data['image'],
+                          title: data['title'],
+                          comment: data['comment'],
+                        );
+                        Account postAccount =
+                            userSnapshot.data![post.postAccountId]!;
+                        return CellItems(
+                          index: index,
+                          postAccount: postAccount,
+                          post: post,
+                          isMyAccount: false,
+                        );
+                      },
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              );
+            } else {
+              return const Center(
+                child: NoListItem(),
+              );
+            }
           } else {
             return const Center(
               child: CircularProgressIndicator(),

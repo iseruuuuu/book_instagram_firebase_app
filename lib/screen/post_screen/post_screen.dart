@@ -28,8 +28,9 @@ class _PostScreenState extends State<PostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CupertinoColors.secondarySystemBackground,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: CupertinoColors.secondarySystemBackground,
         title: const Text(
           '新規投稿',
           style: TextStyle(
@@ -49,104 +50,109 @@ class _PostScreenState extends State<PostScreen> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          (image == null)
-              ? DottedBorder(
-                  child: SizedBox(
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            (image == null)
+                ? DottedBorder(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.2,
+                      height: 200.w,
+                    ),
+                  )
+                : Container(
                     width: MediaQuery.of(context).size.width / 1.2,
                     height: 200.w,
+                    color: Colors.grey,
+                    child: Image.file(image!),
                   ),
-                )
-              : Container(
-                  width: MediaQuery.of(context).size.width / 1.2,
-                  height: 200.w,
-                  color: Colors.grey,
-                  child: Image.file(image!),
+            PostTextField(
+              controller: titleController,
+              hintText: '本のタイトル (必須)',
+              maxLength: 10,
+            ),
+            PostTextField(
+              controller: commentController,
+              hintText: 'コメント',
+              maxLength: 100,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    //TODO  画像が全てアップロードできるかを確認する
+                    var result = await FunctionUtils.getImageFromGallery();
+                    if (result != null) {
+                      setState(() {
+                        image = File(result.path);
+                      });
+                    }
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 5,
+                    height: MediaQuery.of(context).size.width / 5,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black, width: 2.w),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Icon(
+                      Icons.photo_size_select_actual_outlined,
+                      size: 30.w,
+                    ),
+                  ),
                 ),
-          PostTextField(
-            controller: titleController,
-            hintText: '店名',
-            maxLength: 10,
-          ),
-          PostTextField(
-            controller: commentController,
-            hintText: 'コメント',
-            maxLength: 100,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              GestureDetector(
-                onTap: () async {
-                  var result = await FunctionUtils.getImageFromGallery();
-                  if (result != null) {
-                    setState(() {
-                      image = File(result.path);
-                    });
+                GestureDetector(
+                  onTap: () async {
+                    //TODO  画像が全てアップロードできるかを確認する
+                    var result = await FunctionUtils.getImageFromCamera();
+                    if (result != null) {
+                      setState(() {
+                        image = File(result.path);
+                      });
+                    }
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 5,
+                    height: MediaQuery.of(context).size.width / 5,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black, width: 2.w),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Icon(
+                      Icons.camera_alt_outlined,
+                      size: 30.w,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 30.w),
+            PostButton(
+              onTap: () async {
+                if (titleController.text.isNotEmpty) {
+                  imagePath = await FunctionUtils.uploadImage(
+                    PostFireStore.posts.doc().id,
+                    image!,
+                  );
+                  Post newPost = Post(
+                    postAccountId: Authentication.myAccount!.id,
+                    title: titleController.text,
+                    image: imagePath!,
+                    comment: commentController.text,
+                  );
+                  var result = await PostFireStore.addPost(newPost);
+                  if (result == true) {
+                    Navigator.pop(context);
                   }
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 5,
-                  height: MediaQuery.of(context).size.width / 5,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 2.w),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Icon(
-                    Icons.photo_size_select_actual_outlined,
-                    size: 30.w,
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () async {
-                  var result = await FunctionUtils.getImageFromCamera();
-                  if (result != null) {
-                    setState(() {
-                      image = File(result.path);
-                    });
-                  }
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 5,
-                  height: MediaQuery.of(context).size.width / 5,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 2.w),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Icon(
-                    Icons.camera_alt_outlined,
-                    size: 30.w,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          PostButton(
-            onTap: () async {
-              if (titleController.text.isNotEmpty) {
-                imagePath = await FunctionUtils.uploadImage(
-                  PostFireStore.posts.doc().id,
-                  image!,
-                );
-                Post newPost = Post(
-                  postAccountId: Authentication.myAccount!.id,
-                  title: titleController.text,
-                  image: imagePath!,
-                  comment: commentController.text,
-                );
-                var result = await PostFireStore.addPost(newPost);
-                if (result == true) {
-                  Navigator.pop(context);
+                } else {
+                  openDialog();
                 }
-              } else {
-                openDialog();
-              }
-            },
-          ),
-        ],
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -156,10 +162,16 @@ class _PostScreenState extends State<PostScreen> {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: const Text("投稿失敗"),
+          title: Text(
+            "投稿失敗",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20.w,
+            ),
+          ),
           content: const Text(
-            "店名か写真が登録されていません。\n"
-            "もう一度お確かめください",
+            "\n本のタイトルor写真を登録が必要です。\n"
+            "もう一度お確かめください。\n",
           ),
           actions: [
             CupertinoDialogAction(

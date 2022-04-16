@@ -1,5 +1,6 @@
 import 'package:book_instagram_for_firebase/screen/my_page_screen/my_page_root_screen.dart';
 import 'package:book_instagram_for_firebase/screen/time_line_screen/time_line_root_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RootScreen extends StatefulWidget {
@@ -21,22 +22,19 @@ class _RootScreenState extends State<RootScreen> {
     return Scaffold(
       body: pageList[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        // backgroundColor: Colors.yellow,
-        backgroundColor: Colors.white,
-        elevation: 10,
+        backgroundColor: CupertinoColors.secondarySystemBackground,
         fixedColor: Colors.black,
+        unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(Icons.home),
             activeIcon: Icon(Icons.home),
             label: 'タイムライン',
-            backgroundColor: Colors.yellow,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
+            icon: Icon(Icons.person),
             activeIcon: Icon(Icons.person),
             label: 'マイページ',
-            backgroundColor: Colors.yellow,
           ),
         ],
         currentIndex: selectedIndex,

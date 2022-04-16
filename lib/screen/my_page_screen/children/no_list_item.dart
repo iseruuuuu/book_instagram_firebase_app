@@ -15,22 +15,14 @@ class NoListItem extends StatelessWidget {
             '投稿がありません',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 27.w,
+              fontSize: 35.w,
             ),
           ),
-          Text(
-            '右下の「＋」ボタンで投稿することができます。',
-            style: TextStyle(
-              fontSize: 14.w,
-              fontWeight: FontWeight.normal,
-            ),
+          Image.asset(
+            'assets/images/nolist.png',
+            width: 170.w,
+            height: 170.w,
           ),
-          SizedBox(height: 40.w),
-          // Image.asset(
-          //   'assets/images/ramen_icon.png',
-          //   width: 150.w,
-          //   height: 150.w,
-          // ),
           const Spacer(),
         ],
       ),

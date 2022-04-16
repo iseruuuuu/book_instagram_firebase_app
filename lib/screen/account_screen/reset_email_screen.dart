@@ -14,14 +14,13 @@ class ResetEmailScreen extends StatefulWidget {
 
 class _ResetEmailScreenState extends State<ResetEmailScreen> {
   TextEditingController emailController = TextEditingController();
-  String email = '';
-  final String address = '@rissho-univ.jp';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CupertinoColors.secondarySystemBackground,
       appBar: AppBar(
-        backgroundColor: Colors.yellow,
+        backgroundColor: CupertinoColors.secondarySystemBackground,
         centerTitle: true,
         elevation: 0,
         leading: IconButton(
@@ -39,20 +38,68 @@ class _ResetEmailScreenState extends State<ResetEmailScreen> {
         child: SizedBox(
           width: double.infinity,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              const Spacer(),
               Text(
                 'パスワード再設定メールの送信',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 20.w,
+                  fontSize: 23.w,
                 ),
               ),
+              const Spacer(),
               TextFieldItem(
-                  controller: emailController,
-                  hintText: 'メールアドレス',
-                  maxLength: 100),
-              SizedBox(height: 10.w),
+                controller: emailController,
+                hintText: 'メールアドレス',
+                maxLength: 100,
+              ),
+              const Spacer(),
+              SizedBox(height: 15.w),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Text(
+                  '①登録済みのメールアドレス宛に、パスワード再設定用のURLが記載されてたメールが送信されます。',
+                  style: TextStyle(
+                    fontSize: 16.w,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Text(
+                  '⚠︎URLの有効期限は１時間です。　　　　　　　　　　　　　　　',
+                  style: TextStyle(
+                    fontSize: 16.w,
+                    color: Colors.redAccent,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 5.w),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Text(
+                  '②メールに記載されたURLから新しいパスワードを設定してください。',
+                  style: TextStyle(
+                    fontSize: 16.w,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 5.w),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Text(
+                  '⚠︎メールが届かない場合は、迷惑メールを確認するか、メールアドレスの入力を間違えているか確認する必要があります。',
+                  style: TextStyle(
+                    fontSize: 16.w,
+                    color: Colors.redAccent,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const Spacer(),
               ResetButton(
                 onTap: () async {
                   if (emailController.text.isNotEmpty) {
@@ -61,37 +108,50 @@ class _ResetEmailScreenState extends State<ResetEmailScreen> {
                     );
                     if (result == true) {
                       openDialog(
-                        text: 'パスワード再設定のメールを送信しました\n'
-                            'メールを確認してみてください。',
-                        title: '送信成功',
+                        text: '\n'
+                            'パスワード再設定メールを送信しました\n'
+                            '\n'
+                            'メールをご確認してみてください。'
+                            '\n',
+                        title: '再設定メール送信成功',
                       );
                     } else if (result == 'invalid-email') {
                       openDialog(
-                        text: '無効なメールアドレスです\n'
-                            'もう一度お試しください',
+                        text: '\n'
+                            '無効なメールアドレスです\n'
+                            'もう一度お試しください'
+                            '\n',
                         title: '無効なメールアドレス',
                       );
                     } else if (result == 'user-not-found') {
                       openDialog(
-                        text: 'メールアドレスが登録されていません\n'
-                            'もう一度お試しください',
-                        title: 'エラー',
+                        text: '\n'
+                            'メールアドレスが登録されていません\n'
+                            'もう一度お試しするか\n'
+                            '登録画面から登録をお願いします'
+                            '\n',
+                        title: '登録されていないアドレス',
                       );
                     } else {
                       openDialog(
-                        text: 'メール送信に失敗しました。\n'
-                            'もう一度お試しください',
+                        text: '\n'
+                            'メール送信に失敗しました。\n'
+                            'もう一度お試しください'
+                            '\n',
                         title: 'エラー',
                       );
                     }
                   } else {
                     openDialog(
-                      text: 'テキストフィールドにメールアドレスを入力してください',
-                      title: 'テキストフィールドが空です',
+                      text: '\n'
+                          'メールアドレスを入力してください'
+                          '\n',
+                      title: '入力エラー',
                     );
                   }
                 },
               ),
+              const Spacer(),
             ],
           ),
         ),

@@ -16,7 +16,8 @@ class PostButton extends StatelessWidget {
       height: 50.w,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Colors.yellow,
+          primary: Colors.lightBlueAccent,
+          onPrimary: Colors.lightBlueAccent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.w),
           ),

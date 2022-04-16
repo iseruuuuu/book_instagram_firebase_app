@@ -27,23 +27,43 @@ class _CheckEmailScreenState extends State<CheckEmailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CupertinoColors.secondarySystemBackground,
       appBar: AppBar(
-        backgroundColor: Colors.yellow,
+        backgroundColor: CupertinoColors.secondarySystemBackground,
         centerTitle: true,
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            const Spacer(),
             Text(
-              'メールアドレスから認証を行ってください',
+              '認証のメールを送信しました',
               style: TextStyle(
-                fontSize: 17.w,
+                fontSize: 25.w,
                 fontWeight: FontWeight.bold,
               ),
             ),
+            const Spacer(),
+            Image.asset(
+              'assets/images/check_email.png',
+              width: 130.w,
+              height: 130.w,
+            ),
+            const Spacer(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: Text(
+                '⚠︎メールが届かない場合は、迷惑メールを確認するか、メールアドレスの入力を間違えているか確認する必要があります。',
+                style: TextStyle(
+                  fontSize: 17.w,
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const Spacer(),
             CheckEmailButtonItem(
               onTap: () async {
                 var result = await Authentication.emailSignIn(
@@ -68,6 +88,7 @@ class _CheckEmailScreenState extends State<CheckEmailScreen> {
                 }
               },
             ),
+            const Spacer(),
           ],
         ),
       ),

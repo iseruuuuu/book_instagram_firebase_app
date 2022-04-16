@@ -2,9 +2,9 @@ import 'package:book_instagram_for_firebase/firebase/authentication.dart';
 import 'package:book_instagram_for_firebase/model/account.dart';
 import 'package:book_instagram_for_firebase/screen/post_screen/post_screen.dart';
 import 'package:book_instagram_for_firebase/screen/setting_screen/setting_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'my_page_image_screen.dart';
 import 'my_page_screen.dart';
 
@@ -20,8 +20,8 @@ class _MyPageRootScreenState extends State<MyPageRootScreen>
   Account myAccount = Authentication.myAccount!;
 
   final List<Tab> tabs = <Tab>[
-    const Tab(text: 'Home'),
-    const Tab(text: 'Image'),
+    const Tab(text: '投稿'),
+    const Tab(text: '画像'),
   ];
 
   List<Widget> pageList = [
@@ -41,7 +41,7 @@ class _MyPageRootScreenState extends State<MyPageRootScreen>
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: CupertinoColors.secondarySystemBackground,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -85,7 +85,6 @@ class _MyPageRootScreenState extends State<MyPageRootScreen>
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  // builder: (context) => const EditScreen(),
                   builder: (context) => const SettingScreen(),
                 ),
               );
@@ -111,7 +110,6 @@ class _MyPageRootScreenState extends State<MyPageRootScreen>
       ),
       floatingActionButton: FloatingActionButton(
         foregroundColor: Colors.black,
-        // backgroundColor: Colors.yellow,
         backgroundColor: Colors.white,
         onPressed: () {
           Navigator.push(

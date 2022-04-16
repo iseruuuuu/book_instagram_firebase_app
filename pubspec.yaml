@@ -32,5 +32,9 @@ dev_dependencies:
   #adapting screen and font size
   flutter_screenutil: ^5.4.0
   dotted_border: ^2.0.0+2
+
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/nolist.png
+    - assets/images/check_email.png

@@ -2,14 +2,12 @@ import 'package:book_instagram_for_firebase/firebase/authentication.dart';
 import 'package:book_instagram_for_firebase/firebase/user_firebase.dart';
 import 'package:book_instagram_for_firebase/screen/account_screen/register_screen.dart';
 import 'package:book_instagram_for_firebase/screen/account_screen/reset_email_screen.dart';
-import 'package:book_instagram_for_firebase/screen/my_page_screen/my_page_root_screen.dart';
 import 'package:book_instagram_for_firebase/screen/root_screen/root_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'children/login_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -36,7 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          // builder: (context) => const MyPageRootScreen(),
           builder: (context) => const RootScreen(),
         ),
       );
@@ -46,10 +43,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CupertinoColors.secondarySystemBackground,
       appBar: AppBar(
-        backgroundColor: Colors.yellow,
+        backgroundColor: CupertinoColors.secondarySystemBackground,
         title: const Text(
-          'ラーメンアルバム',
+          'Book Instant Telegram',
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -62,24 +60,18 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SizedBox(
           width: double.infinity,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              const Text(
-                'ログイン画面',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                ),
-              ),
+              const Spacer(),
               LoginTextFieldItem(
                 controller: emailController,
                 hintText: 'メールアドレス',
               ),
+              const Spacer(),
               LoginTextFieldItem(
                 controller: passController,
                 hintText: 'パスワード',
               ),
-
+              const Spacer(),
               RichText(
                 text: TextSpan(
                   style: const TextStyle(
@@ -89,14 +81,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextSpan(
                       text: 'パスワードを忘れた方は',
                       style: TextStyle(
-                        fontSize: 15.w,
+                        fontSize: 20.w,
                       ),
                     ),
                     TextSpan(
                       text: 'こちら',
                       style: TextStyle(
                         color: Colors.blue,
-                        fontSize: 15.w,
+                        fontSize: 20.w,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -111,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-
+              SizedBox(height: 30.w),
               RichText(
                 text: TextSpan(
                   style: const TextStyle(
@@ -119,16 +111,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   children: [
                     TextSpan(
-                      text: 'アカウントを作成していない方は',
+                      text: 'アカウントの作成は',
                       style: TextStyle(
-                        fontSize: 15.w,
+                        fontSize: 20.w,
                       ),
                     ),
                     TextSpan(
                       text: 'こちら',
                       style: TextStyle(
                         color: Colors.blue,
-                        fontSize: 15.w,
+                        fontSize: 20.w,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -143,13 +135,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
+              const Spacer(),
               SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
+                width: MediaQuery.of(context).size.width / 1.5,
                 height: 50.w,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.yellow,
-                    onPrimary: Colors.yellow,
+                    primary: Colors.lightBlueAccent,
+                    onPrimary: Colors.lightBlueAccent,
                   ),
                   onPressed: () async {
                     var result = await Authentication.emailSignIn(
@@ -161,12 +154,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                               builder: (context) => const RootScreen(),
-                              //builder: (context) => const MyPageRootScreen(),
+                              builder: (context) => const RootScreen(),
                             ),
                           );
                         }
                       } else {
+                        //TODO ダイアログを作成する
                         print('メールの認証ができていません');
                       }
                     } else {
@@ -182,6 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+              const Spacer(),
             ],
           ),
         ),
@@ -196,10 +190,12 @@ class _LoginScreenState extends State<LoginScreen> {
         return CupertinoAlertDialog(
           title: const Text("ログイン失敗"),
           content: Text(
+            "\n"
             "メールアドレスまたはパスワードが\n"
-            "正しくありません。",
+            "正しくありません。"
+            "\n",
             style: TextStyle(
-              fontSize: 12.5.w,
+              fontSize: 14.w,
             ),
           ),
           actions: [

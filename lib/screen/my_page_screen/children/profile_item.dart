@@ -19,6 +19,7 @@ class ProfileItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
+              //TODO 文字数によってバグらないかを確認する。
               myAccount.name,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
@@ -28,6 +29,7 @@ class ProfileItem extends StatelessWidget {
               ),
             ),
             Text(
+              //TODO 文字数によってバグらないかを確認する。
               myAccount.userId,
               style: TextStyle(
                 color: Colors.grey,

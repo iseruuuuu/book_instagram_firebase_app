@@ -33,7 +33,7 @@ class ImageCellItem extends StatelessWidget {
         );
       },
       child: Image.network(
-          post.image,
+        post.image,
         fit: BoxFit.fill,
       ),
     );

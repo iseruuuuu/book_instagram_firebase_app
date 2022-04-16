@@ -12,13 +12,9 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //複数解像度対応
     return ScreenUtilInit(
-      //ターゲットデバイスの設定
       designSize: const Size(375, 812),
-      //幅と高さの最小値に応じてテキストサイズを可変させるか
       minTextAdapt: true,
-      //split screenに対応するかどうか？
       splitScreenMode: true,
       builder: (BuildContext context) => const MaterialApp(
         debugShowCheckedModeBanner: false,
