@@ -7,11 +7,7 @@
 - [ ] ダイアログで、画像を選択するか写真を選択するかのダイアログを出す(register_screen)
 - [ ] 画像が全てアップロードできるかを確認する(register_screen)
 - [ ] 追加ボタンのデザインを考え直す(time_line_root_screen)
-- [ ] Loading画面を作る(time_line_screen)
-- [ ] Loading画面を作る(time_line_image_screen)
 - [ ] 一列あたりの表示数を変更できるようにしたい。(time_line_image_screen)
-- [ ] Loading画面を作る(my_page_screen)
-- [ ] Loading画面を作る(my_page_image_screen)
 - [ ] 「・・・」このアイコンを探す(time_line_details)
 - [ ] 画像が全てアップロードできるかを確認する(post_screen)
 - [ ] 画像が全てアップロードできるかを確認する(post_screen)
@@ -22,6 +18,10 @@
 - [ ] パスワードを変更できるようにしたい。
 　
 ## 完了リスト
+- [x] Loading画面を作る(time_line_screen)
+- [x] Loading画面を作る(time_line_image_screen)
+- [x] Loading画面を作る(my_page_screen)
+- [x] Loading画面を作る(my_page_image_screen)
 - [x] 文字数によってバグらないかを確認する。(my_cell_items)
 - [x] ダイアログを作成する(login_screen)
 - [x] 投稿内容が足りていない時のダイアログを出現する(register_screen)
