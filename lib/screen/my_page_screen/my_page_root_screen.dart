@@ -60,7 +60,7 @@ class _MyPageRootScreenState extends State<MyPageRootScreen>
                     Text(
                       myAccount.name,
                       style: TextStyle(
-                        fontSize: 25.w,
+                        fontSize: 15.w,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
@@ -68,7 +68,7 @@ class _MyPageRootScreenState extends State<MyPageRootScreen>
                     Text(
                       '@' + myAccount.userId,
                       style: TextStyle(
-                        fontSize: 15.w,
+                        fontSize: 13.w,
                         color: Colors.black,
                         fontWeight: FontWeight.normal,
                       ),

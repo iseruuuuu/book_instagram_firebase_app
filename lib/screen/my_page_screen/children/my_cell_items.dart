@@ -57,7 +57,7 @@ class _MyCellItemsState extends State<MyCellItems> {
                 children: [
                   SizedBox(height: 10.w),
                   Padding(
-                    padding: EdgeInsets.only(right: 5.w, left: 15.w),
+                    padding: EdgeInsets.only(right: 5.w, left: 5.w),
                     child: Row(
                       children: [
                         CircleAvatar(
@@ -68,25 +68,14 @@ class _MyCellItemsState extends State<MyCellItems> {
                         ),
                         SizedBox(width: 5.w),
                         Text(
-                          //TODO 文字数によってバグらないかを確認する。
                           widget.postAccount.name,
                           style: TextStyle(
-                            fontSize: 20.w,
+                            fontSize: 17.w,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const Spacer(),
-                        Text(
-                          DateFormat('yyyy/MM/dd').format(
-                            widget.post.createTime!.toDate(),
-                          ),
-                          style: TextStyle(
-                            fontSize: 15.w,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
                         SizedBox(width: 10.w),
                         (widget.isMyAccount)
                             ? GestureDetector(
@@ -116,6 +105,36 @@ class _MyCellItemsState extends State<MyCellItems> {
                         widget.post.image,
                         fit: BoxFit.fill,
                       ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 15.w,
+                      right: 15.w,
+                      left: 15.w,
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          widget.post.title,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20.w,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          DateFormat('yyyy/MM/dd').format(
+                            widget.post.createTime!.toDate(),
+                          ),
+                          style: TextStyle(
+                            fontSize: 15.w,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Padding(

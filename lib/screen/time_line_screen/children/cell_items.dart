@@ -1,4 +1,3 @@
-import 'package:book_instagram_for_firebase/firebase/post_firebase.dart';
 import 'package:book_instagram_for_firebase/model/account.dart';
 import 'package:book_instagram_for_firebase/model/post.dart';
 import 'package:book_instagram_for_firebase/screen/time_line_details/time_line_details.dart';
@@ -70,22 +69,12 @@ class _CellItemsState extends State<CellItems> {
                         Text(
                           widget.postAccount.name,
                           style: TextStyle(
-                            fontSize: 20.w,
+                            fontSize: 18.w,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const Spacer(),
-                        Text(
-                          DateFormat('yyyy/MM/dd').format(
-                            widget.post.createTime!.toDate(),
-                          ),
-                          style: TextStyle(
-                            fontSize: 15.w,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
                         SizedBox(width: 10.w),
                       ],
                     ),
@@ -107,13 +96,28 @@ class _CellItemsState extends State<CellItems> {
                       right: 15.w,
                       left: 15.w,
                     ),
-                    child: Text(
-                      widget.post.title,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.w,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: Row(
+                      children: [
+                        Text(
+                          widget.post.title,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20.w,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          DateFormat('yyyy/MM/dd').format(
+                            widget.post.createTime!.toDate(),
+                          ),
+                          style: TextStyle(
+                            fontSize: 15.w,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Padding(

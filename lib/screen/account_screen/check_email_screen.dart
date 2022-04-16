@@ -1,6 +1,6 @@
 import 'package:book_instagram_for_firebase/firebase/authentication.dart';
 import 'package:book_instagram_for_firebase/firebase/user_firebase.dart';
-import 'package:book_instagram_for_firebase/screen/my_page_screen/my_page_root_screen.dart';
+import 'package:book_instagram_for_firebase/screen/root_screen/root_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +79,7 @@ class _CheckEmailScreenState extends State<CheckEmailScreen> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const MyPageRootScreen(),
+                        builder: (context) => const RootScreen(),
                       ),
                     );
                   } else {

@@ -117,6 +117,7 @@ class _EditScreenState extends State<EditScreen> {
                     id: myAccount.id,
                     name: nameController.text,
                     userId: useIdController.text,
+                    image: myAccount.image,
                   );
                   Authentication.myAccount = updateAccount;
                   var result = await UserFireStore.updateUser(updateAccount);
