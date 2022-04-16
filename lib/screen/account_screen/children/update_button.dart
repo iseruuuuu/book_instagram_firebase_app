@@ -13,18 +13,19 @@ class UpdateButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 300.w,
-      height: 40.w,
+      height: 60.w,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Colors.yellow,
+          primary: Colors.blue,
+          elevation: 10,
         ),
         onPressed: onPressed,
         child: Text(
           '更新',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 20.w,
-            color: Colors.black,
+            fontSize: 25.w,
+            color: Colors.white,
           ),
         ),
       ),

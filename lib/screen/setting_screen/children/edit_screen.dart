@@ -4,11 +4,8 @@ import 'package:book_instagram_for_firebase/model/account.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'children/delete_account_button.dart';
-import 'children/sign_out_button.dart';
-import 'children/text_field_item.dart';
-import 'children/update_button.dart';
-import 'login_screen.dart';
+import '../../account_screen/children/text_field_item.dart';
+import '../../account_screen/children/update_button.dart';
 
 class EditScreen extends StatefulWidget {
   const EditScreen({Key? key}) : super(key: key);
@@ -32,8 +29,9 @@ class _EditScreenState extends State<EditScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CupertinoColors.secondarySystemBackground,
       appBar: AppBar(
-        backgroundColor: Colors.yellow,
+        backgroundColor: CupertinoColors.secondarySystemBackground,
         title: const Text(
           '編集画面',
           style: TextStyle(
@@ -55,14 +53,37 @@ class _EditScreenState extends State<EditScreen> {
       ),
       body: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Spacer(),
+            SizedBox(
+              width: 310.w,
+              child: Text(
+                'ユーザー名',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.w,
+                  color: Colors.grey.shade500,
+                ),
+              ),
+            ),
             TextFieldItem(
               controller: nameController,
-              hintText: 'ユーザー名',
+              hintText: '',
               maxLength: 15,
             ),
             const Spacer(),
+            SizedBox(
+              width: 310.w,
+              child: Text(
+                'ユーザーID',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.w,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,7 +103,7 @@ class _EditScreenState extends State<EditScreen> {
                 ),
                 TextFieldItem(
                   controller: useIdController,
-                  hintText: 'ユーザーID',
+                  hintText: '',
                   maxLength: 15,
                 ),
               ],
@@ -106,75 +127,9 @@ class _EditScreenState extends State<EditScreen> {
               },
             ),
             const Spacer(),
-            SignOutButton(
-              onPressed: () async {
-                Authentication.signOut();
-                while (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  ),
-                );
-              },
-            ),
-            SizedBox(height: 10.w),
-            DeleteAccountButton(
-              onPressed: () {
-                openDialog();
-              },
-            ),
-            const Spacer(),
           ],
         ),
       ),
-    );
-  }
-
-  void openDialog() {
-    showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          title: const Text("アカウント削除確認"),
-          content: const Text(
-            "アカウントを削除しますか？\n"
-            "今まで投稿した写真も全て消えてしまいます。",
-          ),
-          actions: [
-            CupertinoDialogAction(
-              child: const Text(
-                "Cancel",
-                style: TextStyle(color: Colors.red),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            CupertinoDialogAction(
-              child: const Text(
-                "OK",
-                style: TextStyle(color: Colors.blue),
-              ),
-              onPressed: () {
-                UserFireStore.deleteUser(myAccount.id);
-                Authentication.deleteAuth();
-                while (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  ),
-                );
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

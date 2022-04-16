@@ -1,8 +1,11 @@
 import 'package:book_instagram_for_firebase/firebase/authentication.dart';
-import 'package:book_instagram_for_firebase/screen/account_screen/edit_screen.dart';
+import 'package:book_instagram_for_firebase/firebase/user_firebase.dart';
+import 'package:book_instagram_for_firebase/model/account.dart';
+import 'package:book_instagram_for_firebase/screen/setting_screen/children/edit_screen.dart';
 import 'package:book_instagram_for_firebase/screen/account_screen/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/src/size_extension.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -12,9 +15,30 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Account myAccount = Authentication.myAccount!;
     final InAppReview inAppReview = InAppReview.instance;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: CupertinoColors.secondarySystemBackground,
+        elevation: 0,
+        title: const Text(
+          '設定',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          color: Colors.black,
+          iconSize: 30.w,
+          icon: const Icon(
+            Icons.arrow_back_ios,
+          ),
+        ),
+      ),
       body: SettingsList(
         sections: [
           SettingsSection(
@@ -37,7 +61,8 @@ class SettingScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const LicensePage()),
+                      builder: (context) => const LicensePage(),
+                    ),
                   );
                 },
               ),
@@ -101,7 +126,12 @@ class SettingScreen extends StatelessWidget {
               SettingsTile.navigation(
                 leading: const Icon(Icons.person),
                 title: const Text('アカウント削除'),
-                onPressed: (context) {},
+                onPressed: (context) {
+                  deleteAccountDialog(
+                    context: context,
+                    myAccount: myAccount,
+                  );
+                },
               ),
             ],
           ),
@@ -158,19 +188,121 @@ class SettingScreen extends StatelessWidget {
               },
             ),
             CupertinoDialogAction(
-                child: const Text("OK"),
-                onPressed: () {
-                  Authentication.signOut();
-                  while (Navigator.canPop(context)) {
-                    Navigator.pop(context);
-                  }
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
-                    ),
-                  );
-                }),
+              child: const Text("OK"),
+              onPressed: () {
+                Authentication.signOut();
+                while (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void deleteAccountDialog({
+    required BuildContext context,
+    required Account myAccount,
+  }) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text('アカウントの削除確認'),
+          content: Text(
+            'アカウントの削除を行います\n'
+            '今までの記録が消えてしまいます\n'
+            'よろしいでしょうか？',
+            style: TextStyle(
+              fontSize: 15.w,
+            ),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text(
+                "キャンセル",
+                style: TextStyle(
+                  color: Colors.redAccent,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            CupertinoDialogAction(
+              child: const Text("OK"),
+              onPressed: () {
+                deleteAccountDialog2(
+                  context: context,
+                  myAccount: myAccount,
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void deleteAccountDialog2({
+    required BuildContext context,
+    required Account myAccount,
+  }) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text(
+            'アカウントの削除の最終確認',
+            style: TextStyle(color: Colors.redAccent),
+          ),
+          content: Text(
+            '\n'
+            '今までの記録が消えてしまいます\n'
+            '大切な記録が消えてしまいます\n'
+            '本当によろしいでしょうか？'
+            '\n',
+            style: TextStyle(
+              fontSize: 15.w,
+            ),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text("OK"),
+              onPressed: () {
+                UserFireStore.deleteUser(myAccount.id);
+                Authentication.deleteAuth();
+                while (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
+              },
+            ),
+            CupertinoDialogAction(
+              child: const Text(
+                "キャンセル",
+                style: TextStyle(
+                  color: Colors.redAccent,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
           ],
         );
       },
