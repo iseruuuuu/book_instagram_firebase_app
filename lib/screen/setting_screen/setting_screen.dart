@@ -90,18 +90,6 @@ class SettingScreen extends StatelessWidget {
                     title: 'ログアウト確認',
                     content: 'ログアウトしてもよろしいですか？\n'
                         '再度ログインすることで利用することができます',
-                    onPressed: () {
-                      Authentication.signOut();
-                      while (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
-                      );
-                    },
                   );
                 },
               ),
@@ -150,7 +138,6 @@ class SettingScreen extends StatelessWidget {
     required BuildContext context,
     required String title,
     required String content,
-    Function()? onPressed,
   }) {
     showCupertinoDialog(
       context: context,
@@ -171,9 +158,19 @@ class SettingScreen extends StatelessWidget {
               },
             ),
             CupertinoDialogAction(
-              child: const Text("OK"),
-              onPressed: onPressed,
-            ),
+                child: const Text("OK"),
+                onPressed: () {
+                  Authentication.signOut();
+                  while (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  }
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                  );
+                }),
           ],
         );
       },
