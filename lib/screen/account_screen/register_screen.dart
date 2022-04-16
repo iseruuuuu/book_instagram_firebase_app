@@ -172,6 +172,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                           );
+                        } else {
+                          //TODO 投稿内容が足りていない時のダイアログを出現する
                         }
                       }
                     }
