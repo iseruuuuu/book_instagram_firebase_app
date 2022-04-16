@@ -159,8 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         }
                       } else {
-                        //TODO ダイアログを作成する
-                        print('メールの認証ができていません');
+                        openMailDialog();
                       }
                     } else {
                       openDialog();
@@ -193,6 +192,37 @@ class _LoginScreenState extends State<LoginScreen> {
             "\n"
             "メールアドレスまたはパスワードが\n"
             "正しくありません。"
+            "\n",
+            style: TextStyle(
+              fontSize: 14.w,
+            ),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text(
+                "OK",
+                style: TextStyle(color: Colors.blue),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void openMailDialog() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text("メールの認証エラー"),
+          content: Text(
+            "\n"
+            "メールの認証が完了していません\n"
+            "ご自身のメールを確認してください"
             "\n",
             style: TextStyle(
               fontSize: 14.w,
