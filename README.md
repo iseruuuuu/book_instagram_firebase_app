@@ -15,16 +15,14 @@
 - [ ] 一列あたりの表示数を変更できるようにしたい。(time_line_image_screen)
 - [ ] Loading画面を作る(my_page_screen)
 - [ ] Loading画面を作る(my_page_image_screen)
-- [ ] いいね機能を実装したい(time_line_details)
-- [ ] 共有機能を実装したい(time_line_details)
 - [ ] 「・・・」このアイコンを探す(time_line_details)
 - [ ] 画像が全てアップロードできるかを確認する(post_screen)
 - [ ] 画像が全てアップロードできるかを確認する(post_screen)
 　
+- [ ] いいね機能を実装したい(time_line_details)
+- [ ] 共有機能を実装したい(time_line_details)
 - [ ] 編集画面で写真を変更できるようにしたい。
 - [ ] パスワードを変更できるようにしたい。
-- [ ] 星をつける実装 
-- [ ] 共有する実装
 　
 - [x] 投稿詳細の画面のUIの調整
 - [x] 設定画面を作成する。
