@@ -6,6 +6,7 @@ import 'package:book_instagram_for_firebase/screen/my_page_screen/children/no_li
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'children/image_cell_item.dart';
 
 class TimeLineImageScreen extends StatefulWidget {
@@ -16,7 +17,20 @@ class TimeLineImageScreen extends StatefulWidget {
 }
 
 class _TimeLineImageScreenState extends State<TimeLineImageScreen> {
-  //TODO Loading画面を作る
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    if (mounted) setState(() {});
+    refreshController.loadComplete();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,33 +54,41 @@ class _TimeLineImageScreenState extends State<TimeLineImageScreen> {
                 builder: (context, userSnapshot) {
                   if (userSnapshot.hasData &&
                       userSnapshot.connectionState == ConnectionState.done) {
-                    return GridView.builder(
-                      //TODO  一列あたりの表示数を変更できるようにしたい。
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
+                    return SmartRefresher(
+                      enablePullUp: true,
+                      enablePullDown: true,
+                      header: const WaterDropHeader(),
+                      controller: refreshController,
+                      onLoading: _onLoading,
+                      onRefresh: _onRefresh,
+                      child: GridView.builder(
+                        //TODO  一列あたりの表示数を変更できるようにしたい。
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                        ),
+                        itemCount: postSnapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          Map<String, dynamic> data =
+                              postSnapshot.data!.docs[index].data();
+                          Post post = Post(
+                            id: postSnapshot.data!.docs[index].id,
+                            postAccountId: data['post_account_id'],
+                            createTime: data['created_time'],
+                            image: data['image'],
+                            title: data['title'],
+                            comment: data['comment'],
+                          );
+                          Account postAccount =
+                              userSnapshot.data![post.postAccountId]!;
+                          return ImageCellItem(
+                            index: index,
+                            postAccount: postAccount,
+                            post: post,
+                            isMyAccount: false,
+                          );
+                        },
                       ),
-                      itemCount: postSnapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        Map<String, dynamic> data =
-                            postSnapshot.data!.docs[index].data();
-                        Post post = Post(
-                          id: postSnapshot.data!.docs[index].id,
-                          postAccountId: data['post_account_id'],
-                          createTime: data['created_time'],
-                          image: data['image'],
-                          title: data['title'],
-                          comment: data['comment'],
-                        );
-                        Account postAccount =
-                            userSnapshot.data![post.postAccountId]!;
-                        return ImageCellItem(
-                          index: index,
-                          postAccount: postAccount,
-                          post: post,
-                          isMyAccount: false,
-                        );
-                      },
                     );
                   } else {
                     return const Center(
