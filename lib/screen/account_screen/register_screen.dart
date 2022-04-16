@@ -11,7 +11,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'check_email_screen.dart';
 import 'children/text_field_item.dart';
 import 'package:dotted_border/dotted_border.dart';
-
 import 'children/user_id_text_field.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -173,9 +172,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           );
                         } else {
-                          //TODO 投稿内容が足りていない時のダイアログを出現する
+                          openDialog(
+                            '登録失敗',
+                            'ユーザーの認証に失敗しました。',
+                            'お時間をおいてから登録し直してください。',
+                          );
                         }
+                      } else {
+                        openDialog(
+                          'UserCredential Error',
+                          'ユーザーの認証に失敗しました。',
+                          'お時間をおいてから登録し直してください',
+                        );
                       }
+                    } else {
+                      openDialog(
+                        '登録失敗',
+                        '入力されていないものがあります。',
+                        'もう一度お確かめください',
+                      );
                     }
                   },
                   child: Text(
@@ -192,6 +207,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void openDialog(String title, String contents, String contents2) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text(title),
+          content: Text(
+            "\n"
+            "$contents\n"
+            "$contents2"
+            "\n",
+            style: TextStyle(
+              fontSize: 14.w,
+            ),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text(
+                "OK",
+                style: TextStyle(color: Colors.blue),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
