@@ -88,7 +88,6 @@ class _PostScreenState extends State<PostScreen> {
               children: [
                 GestureDetector(
                   onTap: () async {
-                    //TODO  画像が全てアップロードできるかを確認する
                     var result = await FunctionUtils.getImageFromGallery();
                     if (result != null) {
                       setState(() {
@@ -111,7 +110,6 @@ class _PostScreenState extends State<PostScreen> {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    //TODO  画像が全てアップロードできるかを確認する
                     var result = await FunctionUtils.getImageFromCamera();
                     if (result != null) {
                       setState(() {

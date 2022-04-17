@@ -53,7 +53,6 @@ class _EditIconScreenState extends State<EditIconScreen> {
           children: [
             const Spacer(),
             (image == null)
-                //TODO  画像が全てアップロードできるかを確認する
                 ? GestureDetector(
                     onTap: openPictureDialog,
                     child: DottedBorder(
@@ -64,7 +63,6 @@ class _EditIconScreenState extends State<EditIconScreen> {
                       ),
                     ),
                   )
-                //TODO  画像が全てアップロードできるかを確認する
                 : GestureDetector(
                     onTap: openPictureDialog,
                     child: DottedBorder(
@@ -96,6 +94,7 @@ class _EditIconScreenState extends State<EditIconScreen> {
                 var result = await UserFireStore.updateUser(updateAccount);
                 if (result == true) {
                   //TODO 戻った時に状態変化をさせてあげたい→Loading画面で反映させた方がいいかも？？
+                  //TODO 更新の処理がうまくいってない
                   Navigator.pop(context, true);
                 }
               }

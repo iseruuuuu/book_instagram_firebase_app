@@ -60,7 +60,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               const SizedBox(height: 30),
               (image == null)
-                  //TODO  画像が全てアップロードできるかを確認する
                   ? GestureDetector(
                       onTap: openPictureDialog,
                       child: DottedBorder(
@@ -70,7 +69,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     )
-                  //TODO  画像が全てアップロードできるかを確認する
                   : GestureDetector(
                       onTap: openPictureDialog,
                       child: DottedBorder(
