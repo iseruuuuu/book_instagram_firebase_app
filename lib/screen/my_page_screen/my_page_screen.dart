@@ -74,7 +74,6 @@ class _MyPageScreenState extends State<MyPageScreen> {
                                   index: index,
                                   postAccount: myAccount,
                                   post: post,
-                                  isMyAccount: true,
                                 );
                               },
                             ),

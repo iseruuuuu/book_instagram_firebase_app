@@ -16,13 +16,11 @@ class CellItems extends StatefulWidget {
     required this.index,
     required this.postAccount,
     required this.post,
-    required this.isMyAccount,
   }) : super(key: key);
 
   final int index;
   final Account postAccount;
   final Post post;
-  final bool isMyAccount;
 
   @override
   _CellItemsState createState() => _CellItemsState();

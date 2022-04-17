@@ -79,7 +79,6 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
                             index: index,
                             postAccount: postAccount,
                             post: post,
-                            isMyAccount: false,
                           );
                         },
                       ),
