@@ -4,7 +4,9 @@
 
 - [ ] 戻った時に状態変化をさせてあげたい→Loading画面で反映させた方がいいかも？？(edit_icon_screen)
 - [ ] 更新の処理がうまくいってない(edit_icon_screen)
-　
+
+## やれたらいいなリスト
+
 - [ ] 起動画面を追加する。
 - [ ] 一列あたりの表示数を変更できるようにしたい。(time_line_image_screen)
 - [ ] いいね機能を実装したい(time_line_details)
