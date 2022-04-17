@@ -7,6 +7,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'children/post_button.dart';
 import 'children/post_text_field.dart';
 
@@ -24,6 +25,7 @@ class _PostScreenState extends State<PostScreen> {
   bool checkImage = false;
   File? image;
   String? imagePath;
+  bool showSpinner = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,112 +52,121 @@ class _PostScreenState extends State<PostScreen> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            (image == null)
-                ? GestureDetector(
-                    onTap: openPictureDialog,
-                    child: DottedBorder(
-                      child: SizedBox(
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              (image == null)
+                  ? GestureDetector(
+                      onTap: openPictureDialog,
+                      child: DottedBorder(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 1.2,
+                          height: 200.w,
+                        ),
+                      ),
+                    )
+                  : GestureDetector(
+                      onTap: openPictureDialog,
+                      child: Container(
                         width: MediaQuery.of(context).size.width / 1.2,
                         height: 200.w,
+                        color: Colors.grey,
+                        child: Image.file(image!),
                       ),
                     ),
-                  )
-                : GestureDetector(
-                    onTap: openPictureDialog,
+              PostTextField(
+                controller: titleController,
+                hintText: '本のタイトル (必須)',
+                maxLength: 10,
+              ),
+              PostTextField(
+                controller: commentController,
+                hintText: 'コメント',
+                maxLength: 100,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      var result = await FunctionUtils.getImageFromGallery();
+                      if (result != null) {
+                        setState(() {
+                          image = File(result.path);
+                        });
+                      }
+                    },
                     child: Container(
-                      width: MediaQuery.of(context).size.width / 1.2,
-                      height: 200.w,
-                      color: Colors.grey,
-                      child: Image.file(image!),
+                      width: MediaQuery.of(context).size.width / 5,
+                      height: MediaQuery.of(context).size.width / 5,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black, width: 2.w),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Icon(
+                        Icons.photo_size_select_actual_outlined,
+                        size: 30.w,
+                      ),
                     ),
                   ),
-            PostTextField(
-              controller: titleController,
-              hintText: '本のタイトル (必須)',
-              maxLength: 10,
-            ),
-            PostTextField(
-              controller: commentController,
-              hintText: 'コメント',
-              maxLength: 100,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    var result = await FunctionUtils.getImageFromGallery();
-                    if (result != null) {
-                      setState(() {
-                        image = File(result.path);
-                      });
+                  GestureDetector(
+                    onTap: () async {
+                      var result = await FunctionUtils.getImageFromCamera();
+                      if (result != null) {
+                        setState(() {
+                          image = File(result.path);
+                        });
+                      }
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 5,
+                      height: MediaQuery.of(context).size.width / 5,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black, width: 2.w),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Icon(
+                        Icons.camera_alt_outlined,
+                        size: 30.w,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 30.w),
+              PostButton(
+                onTap: () async {
+                  setState(() {
+                    showSpinner = true;
+                  });
+                  if (titleController.text.isNotEmpty) {
+                    imagePath = await FunctionUtils.uploadImage(
+                      PostFireStore.posts.doc().id,
+                      image!,
+                    );
+                    Post newPost = Post(
+                      postAccountId: Authentication.myAccount!.id,
+                      title: titleController.text,
+                      image: imagePath!,
+                      comment: commentController.text,
+                    );
+                    var result = await PostFireStore.addPost(newPost);
+                    if (result == true) {
+                      Navigator.pop(context);
                     }
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 5,
-                    height: MediaQuery.of(context).size.width / 5,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 2.w),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Icon(
-                      Icons.photo_size_select_actual_outlined,
-                      size: 30.w,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    var result = await FunctionUtils.getImageFromCamera();
-                    if (result != null) {
-                      setState(() {
-                        image = File(result.path);
-                      });
-                    }
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 5,
-                    height: MediaQuery.of(context).size.width / 5,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 2.w),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Icon(
-                      Icons.camera_alt_outlined,
-                      size: 30.w,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 30.w),
-            PostButton(
-              onTap: () async {
-                if (titleController.text.isNotEmpty) {
-                  imagePath = await FunctionUtils.uploadImage(
-                    PostFireStore.posts.doc().id,
-                    image!,
-                  );
-                  Post newPost = Post(
-                    postAccountId: Authentication.myAccount!.id,
-                    title: titleController.text,
-                    image: imagePath!,
-                    comment: commentController.text,
-                  );
-                  var result = await PostFireStore.addPost(newPost);
-                  if (result == true) {
-                    Navigator.pop(context);
+                  } else {
+                    openDialog();
                   }
-                } else {
-                  openDialog();
-                }
-              },
-            ),
-          ],
+                  setState(() {
+                    showSpinner = false;
+                  });
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

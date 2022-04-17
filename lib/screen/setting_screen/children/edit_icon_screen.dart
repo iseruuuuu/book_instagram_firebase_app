@@ -8,6 +8,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../../account_screen/children/update_button.dart';
 
 class EditIconScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class _EditIconScreenState extends State<EditIconScreen> {
   Account myAccount = Authentication.myAccount!;
   File? image;
   String? imagePath;
+  bool showSpinner = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,60 +49,71 @@ class _EditIconScreenState extends State<EditIconScreen> {
         ),
         elevation: 0,
       ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Spacer(),
-            (image == null)
-                ? GestureDetector(
-                    onTap: openPictureDialog,
-                    child: DottedBorder(
-                      child: SizedBox(
-                        width: 200.w,
-                        height: 200.w,
-                        child: Image.network(myAccount.image),
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Spacer(),
+              (image == null)
+                  ? GestureDetector(
+                      onTap: openPictureDialog,
+                      child: DottedBorder(
+                        child: SizedBox(
+                          width: 200.w,
+                          height: 200.w,
+                          child: Image.network(myAccount.image),
+                        ),
+                      ),
+                    )
+                  : GestureDetector(
+                      onTap: openPictureDialog,
+                      child: DottedBorder(
+                        child: SizedBox(
+                          width: 200.w,
+                          height: 200.w,
+                          child: Image.file(image!),
+                        ),
                       ),
                     ),
-                  )
-                : GestureDetector(
-                    onTap: openPictureDialog,
-                    child: DottedBorder(
-                      child: SizedBox(
-                        width: 200.w,
-                        height: 200.w,
-                        child: Image.file(image!),
-                      ),
-                    ),
-                  ),
-            const Spacer(),
-            UpdateButton(onPressed: () async {
-              var setImage = '';
-              if (image == null) {
-                Navigator.pop(context, true);
-              } else {
-                imagePath = await FunctionUtils.uploadImage(
-                  PostFireStore.posts.doc().id,
-                  image!,
-                );
-                setImage = imagePath!;
-                Account updateAccount = Account(
-                  id: myAccount.id,
-                  name: myAccount.name,
-                  userId: myAccount.userId,
-                  image: setImage,
-                );
-                Authentication.myAccount = updateAccount;
-                var result = await UserFireStore.updateUser(updateAccount);
-                if (result == true) {
-                  //TODO 戻った時に状態変化をさせてあげたい→Loading画面で反映させた方がいいかも？？
-                  //TODO 更新の処理がうまくいってない
-                  Navigator.pop(context, true);
-                }
-              }
-            }),
-            const Spacer(),
-          ],
+              const Spacer(),
+              UpdateButton(
+                onPressed: () async {
+                  setState(() {
+                    showSpinner = true;
+                  });
+                  var setImage = '';
+                  if (image == null) {
+                    Navigator.pop(context, true);
+                  } else {
+                    imagePath = await FunctionUtils.uploadImage(
+                      PostFireStore.posts.doc().id,
+                      image!,
+                    );
+                    setImage = imagePath!;
+                    Account updateAccount = Account(
+                      id: myAccount.id,
+                      name: myAccount.name,
+                      userId: myAccount.userId,
+                      image: setImage,
+                    );
+                    Authentication.myAccount = updateAccount;
+                    var result = await UserFireStore.updateUser(updateAccount);
+                    if (result == true) {
+                      //TODO 戻った時に状態変化をさせてあげたい→Loading画面で反映させた方がいいかも？？
+                      //TODO 更新の処理がうまくいってない
+                      Navigator.pop(context, true);
+                    }
+                  }
+                  setState(() {
+                    showSpinner = false;
+                  });
+                },
+              ),
+              const Spacer(),
+            ],
+          ),
         ),
       ),
     );
