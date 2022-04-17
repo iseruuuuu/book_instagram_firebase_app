@@ -1,7 +1,6 @@
 import 'package:book_instagram_for_firebase/firebase/authentication.dart';
 import 'package:book_instagram_for_firebase/firebase/user_firebase.dart';
 import 'package:book_instagram_for_firebase/model/account.dart';
-import 'package:book_instagram_for_firebase/screen/setting_screen/children/edit_screen.dart';
 import 'package:book_instagram_for_firebase/screen/account_screen/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,9 @@ import 'package:flutter_screenutil/src/size_extension.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'children/edit_account_screen.dart';
+import 'children/edit_icon_screen.dart';
+import 'children/edit_password_screen.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -46,11 +48,34 @@ class SettingScreen extends StatelessWidget {
             tiles: <SettingsTile>[
               SettingsTile.navigation(
                 leading: const Icon(Icons.person),
+                title: const Text('アイコン変更'),
+                onPressed: (context) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EditIconScreen()),
+                  );
+                },
+              ),
+              SettingsTile.navigation(
+                leading: const Icon(Icons.mail),
                 title: const Text('アカウント編集'),
                 onPressed: (context) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const EditScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const EditAccountScreen()),
+                  );
+                },
+              ),
+              SettingsTile.navigation(
+                leading: const Icon(Icons.password),
+                title: const Text('パスワード変更'),
+                onPressed: (context) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EditPasswordScreen()),
                   );
                 },
               ),
