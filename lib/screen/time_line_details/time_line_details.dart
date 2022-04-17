@@ -1,3 +1,4 @@
+import 'package:book_instagram_for_firebase/firebase/authentication.dart';
 import 'package:book_instagram_for_firebase/firebase/post_firebase.dart';
 import 'package:book_instagram_for_firebase/model/account.dart';
 import 'package:book_instagram_for_firebase/model/post.dart';
@@ -24,6 +25,18 @@ class TimeLineDetailScreen extends StatefulWidget {
 }
 
 class _TimeLineDetailScreenState extends State<TimeLineDetailScreen> {
+  bool isMyAccount = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.post.postAccountId == Authentication.myAccount!.id) {
+      isMyAccount = true;
+    } else {
+      isMyAccount = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,14 +54,16 @@ class _TimeLineDetailScreenState extends State<TimeLineDetailScreen> {
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: openDeleteDialog,
-            icon: HeroIcon(
-              HeroIcons.dotsHorizontal,
-              color: Colors.black,
-              size: 30.w,
-            ),
-          ),
+          isMyAccount
+              ? IconButton(
+                  onPressed: openDeleteDialog,
+                  icon: HeroIcon(
+                    HeroIcons.dotsHorizontal,
+                    color: Colors.black,
+                    size: 30.w,
+                  ),
+                )
+              : Container(),
         ],
         centerTitle: true,
         elevation: 0,
