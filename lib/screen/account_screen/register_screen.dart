@@ -60,17 +60,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               const SizedBox(height: 30),
               (image == null)
-                  //TODO ダイアログで、画像を選択するか写真を選択するかのダイアログを出す
                   //TODO  画像が全てアップロードできるかを確認する
                   ? GestureDetector(
-                      onTap: () async {
-                        var result = await FunctionUtils.getImageFromGallery();
-                        if (result != null) {
-                          setState(() {
-                            image = File(result.path);
-                          });
-                        }
-                      },
+                      onTap: openPictureDialog,
                       child: DottedBorder(
                         child: SizedBox(
                           width: 100.w,
@@ -78,16 +70,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     )
-                  //TODO ダイアログで、画像を選択するか写真を選択するかのダイアログを出す
+                  //TODO  画像が全てアップロードできるかを確認する
                   : GestureDetector(
-                      onTap: () async {
-                        var result = await FunctionUtils.getImageFromGallery();
-                        if (result != null) {
-                          setState(() {
-                            image = File(result.path);
-                          });
-                        }
-                      },
+                      onTap: openPictureDialog,
                       child: DottedBorder(
                         child: SizedBox(
                           width: 100.w,
@@ -232,6 +217,67 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 style: TextStyle(color: Colors.blue),
               ),
               onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            CupertinoDialogAction(
+              child: const Text(
+                "OK",
+                style: TextStyle(color: Colors.blue),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void openPictureDialog() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text('アイコンの登録'),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text(
+                "写真を撮る",
+                style: TextStyle(color: Colors.blue),
+              ),
+              onPressed: () async {
+                var result = await FunctionUtils.getImageFromCamera();
+                if (result != null) {
+                  setState(() {
+                    image = File(result.path);
+                  });
+                }
+                Navigator.pop(context);
+              },
+            ),
+            CupertinoDialogAction(
+              child: const Text(
+                "フォトライブラリ",
+                style: TextStyle(color: Colors.blue),
+              ),
+              onPressed: () async {
+                var result = await FunctionUtils.getImageFromGallery();
+                if (result != null) {
+                  setState(() {
+                    image = File(result.path);
+                  });
+                }
+                Navigator.pop(context);
+              },
+            ),
+            CupertinoDialogAction(
+              child: const Text(
+                "キャンセル",
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () async {
                 Navigator.pop(context);
               },
             ),

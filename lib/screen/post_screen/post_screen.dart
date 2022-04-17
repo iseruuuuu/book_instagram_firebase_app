@@ -55,17 +55,23 @@ class _PostScreenState extends State<PostScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             (image == null)
-                ? DottedBorder(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width / 1.2,
-                      height: 200.w,
+                ? GestureDetector(
+                    onTap: openPictureDialog,
+                    child: DottedBorder(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        height: 200.w,
+                      ),
                     ),
                   )
-                : Container(
-                    width: MediaQuery.of(context).size.width / 1.2,
-                    height: 200.w,
-                    color: Colors.grey,
-                    child: Image.file(image!),
+                : GestureDetector(
+                    onTap: openPictureDialog,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 1.2,
+                      height: 200.w,
+                      color: Colors.grey,
+                      child: Image.file(image!),
+                    ),
                   ),
             PostTextField(
               controller: titleController,
@@ -178,6 +184,58 @@ class _PostScreenState extends State<PostScreen> {
               child: const Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void openPictureDialog() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text('アイコンの登録'),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text(
+                "写真を撮る",
+                style: TextStyle(color: Colors.blue),
+              ),
+              onPressed: () async {
+                var result = await FunctionUtils.getImageFromCamera();
+                if (result != null) {
+                  setState(() {
+                    image = File(result.path);
+                  });
+                }
+                Navigator.pop(context);
+              },
+            ),
+            CupertinoDialogAction(
+              child: const Text(
+                "フォトライブラリ",
+                style: TextStyle(color: Colors.blue),
+              ),
+              onPressed: () async {
+                var result = await FunctionUtils.getImageFromGallery();
+                if (result != null) {
+                  setState(() {
+                    image = File(result.path);
+                  });
+                }
+                Navigator.pop(context);
+              },
+            ),
+            CupertinoDialogAction(
+              child: const Text(
+                "キャンセル",
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () async {
+                Navigator.pop(context);
               },
             ),
           ],
