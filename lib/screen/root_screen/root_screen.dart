@@ -1,3 +1,4 @@
+import 'package:book_instagram_for_firebase/screen/my_page_screen/children/floating_action_button_items.dart';
 import 'package:book_instagram_for_firebase/screen/my_page_screen/my_page_root_screen.dart';
 import 'package:book_instagram_for_firebase/screen/time_line_screen/time_line_root_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,6 +22,8 @@ class _RootScreenState extends State<RootScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: pageList[selectedIndex],
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: const FloatingActionButtonItems(),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: CupertinoColors.secondarySystemBackground,
         fixedColor: Colors.black,

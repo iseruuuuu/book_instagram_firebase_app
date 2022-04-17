@@ -1,6 +1,5 @@
 import 'package:book_instagram_for_firebase/firebase/authentication.dart';
 import 'package:book_instagram_for_firebase/model/account.dart';
-import 'package:book_instagram_for_firebase/screen/post_screen/post_screen.dart';
 import 'package:book_instagram_for_firebase/screen/setting_screen/setting_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -107,19 +106,6 @@ class _MyPageRootScreenState extends State<MyPageRootScreen>
       body: TabBarView(
         controller: controller,
         children: pageList,
-      ),
-      floatingActionButton: FloatingActionButton(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const PostScreen(),
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
       ),
     );
   }

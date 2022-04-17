@@ -52,30 +52,6 @@ class _TimeLineRootScreenState extends State<TimeLineRootScreen>
         controller: controller,
         children: pageList,
       ),
-      floatingActionButton: SizedBox(
-        height: 80.w,
-        width: 80.w,
-        child: FittedBox(
-          //TODO 追加ボタンのデザインを考え直す
-          child: FloatingActionButton(
-            foregroundColor: Colors.black,
-            backgroundColor: Colors.white,
-            elevation: 5,
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PostScreen(),
-                ),
-              );
-            },
-            child: Icon(
-              Icons.add_box_outlined,
-              size: 40.w,
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
