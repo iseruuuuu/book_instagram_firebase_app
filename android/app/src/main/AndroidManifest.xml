@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.book_instagram_for_firebase">
    <application
-        android:label="book_instagram_for_firebase"
+        android:label="BookInstant"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
