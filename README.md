@@ -1,4 +1,4 @@
-# 巻数チェックアプリ
+# Book Instant Telegram
 
 ## やることリスト
 
