@@ -7,14 +7,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../account_screen/children/text_field_item.dart';
 import '../../account_screen/children/update_button.dart';
 
-class EditScreen extends StatefulWidget {
-  const EditScreen({Key? key}) : super(key: key);
+class EditAccountScreen extends StatefulWidget {
+  const EditAccountScreen({Key? key}) : super(key: key);
 
   @override
-  _EditScreenState createState() => _EditScreenState();
+  _EditAccountScreenState createState() => _EditAccountScreenState();
 }
 
-class _EditScreenState extends State<EditScreen> {
+class _EditAccountScreenState extends State<EditAccountScreen> {
   Account myAccount = Authentication.myAccount!;
   TextEditingController nameController = TextEditingController();
   TextEditingController useIdController = TextEditingController();
