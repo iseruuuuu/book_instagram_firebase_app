@@ -36,6 +36,7 @@ dev_dependencies:
   share: ^2.0.4
   #adapting screen and font size
   flutter_screenutil: ^5.4.0
+  flutter_native_splash: ^2.1.5
 
 flutter:
   uses-material-design: true
@@ -46,3 +47,8 @@ flutter_icons:
   image_path: "assets/images/app_icon.png"
   android: true
   ios: true
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/splash.png
+  fullscreen: true
