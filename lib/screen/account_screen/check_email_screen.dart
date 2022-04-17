@@ -4,6 +4,7 @@ import 'package:book_instagram_for_firebase/screen/root_screen/root_screen.dart'
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'children/check_email_button_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -24,6 +25,8 @@ class CheckEmailScreen extends StatefulWidget {
 }
 
 class _CheckEmailScreenState extends State<CheckEmailScreen> {
+  bool showSpinner = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,62 +37,71 @@ class _CheckEmailScreenState extends State<CheckEmailScreen> {
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
-      body: Center(
-        child: Column(
-          children: [
-            const Spacer(),
-            Text(
-              '認証のメールを送信しました',
-              style: TextStyle(
-                fontSize: 25.w,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Spacer(),
-            Image.asset(
-              'assets/images/check_email.png',
-              width: 130.w,
-              height: 130.w,
-            ),
-            const Spacer(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Text(
-                '⚠︎メールが届かない場合は、迷惑メールを確認するか、メールアドレスの入力を間違えているか確認する必要があります。',
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        child: Center(
+          child: Column(
+            children: [
+              const Spacer(),
+              Text(
+                '認証のメールを送信しました',
                 style: TextStyle(
-                  fontSize: 17.w,
-                  color: Colors.red,
+                  fontSize: 25.w,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            const Spacer(),
-            CheckEmailButtonItem(
-              onTap: () async {
-                var result = await Authentication.emailSignIn(
-                  email: widget.email,
-                  pass: widget.pass,
-                );
-                if (result is UserCredential) {
-                  if (result.user!.emailVerified == true) {
-                    while (Navigator.canPop(context)) {
-                      Navigator.pop(context);
+              const Spacer(),
+              Image.asset(
+                'assets/images/check_email.png',
+                width: 130.w,
+                height: 130.w,
+              ),
+              const Spacer(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Text(
+                  '⚠︎メールが届かない場合は、迷惑メールを確認するか、メールアドレスの入力を間違えているか確認する必要があります。',
+                  style: TextStyle(
+                    fontSize: 17.w,
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              CheckEmailButtonItem(
+                onTap: () async {
+                  setState(() {
+                    showSpinner = true;
+                  });
+                  var result = await Authentication.emailSignIn(
+                    email: widget.email,
+                    pass: widget.pass,
+                  );
+                  if (result is UserCredential) {
+                    if (result.user!.emailVerified == true) {
+                      while (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                      await UserFireStore.getUser(result.user!.uid);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RootScreen(),
+                        ),
+                      );
+                    } else {
+                      openDialog();
                     }
-                    await UserFireStore.getUser(result.user!.uid);
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RootScreen(),
-                      ),
-                    );
-                  } else {
-                    openDialog();
                   }
-                }
-              },
-            ),
-            const Spacer(),
-          ],
+                  setState(() {
+                    showSpinner = false;
+                  });
+                },
+              ),
+              const Spacer(),
+            ],
+          ),
         ),
       ),
     );

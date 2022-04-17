@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'check_email_screen.dart';
 import 'children/text_field_item.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -27,6 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passController = TextEditingController();
   File? image;
   String? imagePath;
+  bool showSpinner = false;
 
   @override
   Widget build(BuildContext context) {
@@ -54,139 +56,148 @@ class _RegisterScreenState extends State<RegisterScreen> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 30),
-              (image == null)
-                  ? GestureDetector(
-                      onTap: openPictureDialog,
-                      child: DottedBorder(
-                        child: SizedBox(
-                          width: 100.w,
-                          height: 100.w,
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 30),
+                (image == null)
+                    ? GestureDetector(
+                        onTap: openPictureDialog,
+                        child: DottedBorder(
+                          child: SizedBox(
+                            width: 100.w,
+                            height: 100.w,
+                          ),
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: openPictureDialog,
+                        child: DottedBorder(
+                          child: SizedBox(
+                            width: 100.w,
+                            height: 100.w,
+                            child: Image.file(image!),
+                          ),
                         ),
                       ),
-                    )
-                  : GestureDetector(
-                      onTap: openPictureDialog,
-                      child: DottedBorder(
-                        child: SizedBox(
-                          width: 100.w,
-                          height: 100.w,
-                          child: Image.file(image!),
-                        ),
+                TextFieldItem(
+                  controller: nameController,
+                  hintText: 'ユーザー名',
+                  maxLength: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      '@',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 30.w,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-              TextFieldItem(
-                controller: nameController,
-                hintText: 'ユーザー名',
-                maxLength: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '@',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 30.w,
-                      fontWeight: FontWeight.bold,
+                    UserIdTextFieldItem(
+                      controller: userIDController,
+                      hintText: 'ユーザーID',
+                      maxLength: 15,
                     ),
-                  ),
-                  UserIdTextFieldItem(
-                    controller: userIDController,
-                    hintText: 'ユーザーID',
-                    maxLength: 15,
-                  ),
-                ],
-              ),
-              TextFieldItem(
-                controller: emailController,
-                hintText: 'メールアドレス',
-                maxLength: 40,
-              ),
-              TextFieldItem(
-                controller: passController,
-                hintText: 'パスワード',
-                maxLength: 15,
-              ),
-              SizedBox(height: 15.w),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 1.2,
-                height: 50.w,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.lightBlueAccent,
-                    onPrimary: Colors.lightBlueAccent,
-                  ),
-                  onPressed: () async {
-                    if (emailController.text.isNotEmpty &&
-                        passController.text.isNotEmpty &&
-                        nameController.text.isNotEmpty &&
-                        userIDController.text.isNotEmpty) {
-                      var result = await Authentication.signUp(
-                          email: emailController.text,
-                          pass: passController.text);
-                      imagePath = await FunctionUtils.uploadImage(
-                        PostFireStore.posts.doc().id,
-                        image!,
-                      );
-                      if (result is UserCredential) {
-                        Account newAccount = Account(
-                          id: result.user!.uid,
-                          name: nameController.text,
-                          userId: userIDController.text,
-                          image: imagePath!,
+                  ],
+                ),
+                TextFieldItem(
+                  controller: emailController,
+                  hintText: 'メールアドレス',
+                  maxLength: 40,
+                ),
+                TextFieldItem(
+                  controller: passController,
+                  hintText: 'パスワード',
+                  maxLength: 15,
+                ),
+                SizedBox(height: 15.w),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.2,
+                  height: 50.w,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.lightBlueAccent,
+                      onPrimary: Colors.lightBlueAccent,
+                    ),
+                    onPressed: () async {
+                      setState(() {
+                        showSpinner = true;
+                      });
+                      if (emailController.text.isNotEmpty &&
+                          passController.text.isNotEmpty &&
+                          nameController.text.isNotEmpty &&
+                          userIDController.text.isNotEmpty) {
+                        var result = await Authentication.signUp(
+                            email: emailController.text,
+                            pass: passController.text);
+                        imagePath = await FunctionUtils.uploadImage(
+                          PostFireStore.posts.doc().id,
+                          image!,
                         );
-                        var _result = await UserFireStore.setUser(newAccount);
-                        if (_result == true) {
-                          result.user!.sendEmailVerification();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CheckEmailScreen(
-                                email: emailController.text,
-                                pass: passController.text,
-                                result: result,
-                              ),
-                            ),
+                        if (result is UserCredential) {
+                          Account newAccount = Account(
+                            id: result.user!.uid,
+                            name: nameController.text,
+                            userId: userIDController.text,
+                            image: imagePath!,
                           );
+                          var _result = await UserFireStore.setUser(newAccount);
+                          if (_result == true) {
+                            result.user!.sendEmailVerification();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CheckEmailScreen(
+                                  email: emailController.text,
+                                  pass: passController.text,
+                                  result: result,
+                                ),
+                              ),
+                            );
+                          } else {
+                            openDialog(
+                              '登録失敗',
+                              'ユーザーの認証に失敗しました。',
+                              'お時間をおいてから登録し直してください。',
+                            );
+                          }
                         } else {
                           openDialog(
-                            '登録失敗',
+                            'UserCredential Error',
                             'ユーザーの認証に失敗しました。',
-                            'お時間をおいてから登録し直してください。',
+                            'お時間をおいてから登録し直してください',
                           );
                         }
                       } else {
                         openDialog(
-                          'UserCredential Error',
-                          'ユーザーの認証に失敗しました。',
-                          'お時間をおいてから登録し直してください',
+                          '登録失敗',
+                          '入力されていないものがあります。',
+                          'もう一度お確かめください',
                         );
                       }
-                    } else {
-                      openDialog(
-                        '登録失敗',
-                        '入力されていないものがあります。',
-                        'もう一度お確かめください',
-                      );
-                    }
-                  },
-                  child: Text(
-                    '登録',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.w,
+                      setState(() {
+                        showSpinner = false;
+                      });
+                    },
+                    child: Text(
+                      '登録',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.w,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 50),
-            ],
+                const SizedBox(height: 50),
+              ],
+            ),
           ),
         ),
       ),
