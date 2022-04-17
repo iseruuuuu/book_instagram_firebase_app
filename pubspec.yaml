@@ -19,6 +19,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   dotted_border: 2.0.0
   heroicons: 0.4.0
+  flutter_launcher_icons: ^0.9.2
 
 dev_dependencies:
   flutter_test:
@@ -40,3 +41,7 @@ flutter:
   assets:
     - assets/images/nolist.png
     - assets/images/check_email.png
+flutter_icons:
+  image_path: "assets/images/app_icon.png"
+  android: true
+  ios: true
