@@ -4,6 +4,7 @@ import 'package:book_instagram_for_firebase/model/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
 
 class TimeLineDetailScreen extends StatefulWidget {
@@ -40,14 +41,12 @@ class _TimeLineDetailScreenState extends State<TimeLineDetailScreen> {
           ),
         ),
         actions: [
-          TextButton(
+          IconButton(
             onPressed: openDeleteDialog,
-            child: const Text(
-              '・・・',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
+            icon: HeroIcon(
+              HeroIcons.dotsHorizontal,
+              color: Colors.black,
+              size: 30.w,
             ),
           ),
         ],

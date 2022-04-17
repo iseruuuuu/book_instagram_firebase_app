@@ -6,6 +6,7 @@ import 'package:book_instagram_for_firebase/screen/time_line_screen/children/bor
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
 
 class MyCellItems extends StatefulWidget {
@@ -77,21 +78,14 @@ class _MyCellItemsState extends State<MyCellItems> {
                         ),
                         const Spacer(),
                         SizedBox(width: 10.w),
-                        (widget.isMyAccount)
-                            ? GestureDetector(
-                                onTap: openDeleteDialog,
-                                child: Text(
-                                  //TODO このアイコンを探す
-                                  '・・・',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 10.w,
-                                  ),
-                                ),
-                              )
-                            : Container(),
+                        IconButton(
+                          onPressed: openDeleteDialog,
+                          icon: HeroIcon(
+                            HeroIcons.dotsHorizontal,
+                            color: Colors.black,
+                            size: 30.w,
+                          ),
+                        ),
                       ],
                     ),
                   ),
