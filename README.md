@@ -4,6 +4,8 @@
 
 - [ ] 戻った時に状態変化をさせてあげたい→Loading画面で反映させた方がいいかも？？(edit_icon_screen)
 - [ ] 更新の処理がうまくいってない(edit_icon_screen)
+- [ ] アカウントの種類によって変える必要アリ(time_line_screen)
+- [ ] アカウントの種類によって変える必要アリ(time_line_image_screen)
 
 ## やれたらいいなリスト
 
