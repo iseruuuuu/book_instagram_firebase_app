@@ -32,7 +32,6 @@ class _MyPageImageScreenState extends State<MyPageImageScreen> {
 
     void _onLoading() async {
       await Future.delayed(const Duration(milliseconds: 1000));
-      if (mounted) setState(() {});
       refreshController.loadComplete();
     }
 

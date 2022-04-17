@@ -27,7 +27,6 @@ class _TimeLineImageScreenState extends State<TimeLineImageScreen> {
 
   void _onLoading() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    if (mounted) setState(() {});
     refreshController.loadComplete();
   }
 
