@@ -2,14 +2,15 @@
 
 ## やることリスト
 
-- [ ] 画像が全てアップロードできるかを確認する(register_screen)
-- [ ] 画像が全てアップロードできるかを確認する(edit_icon_screen)
-- [ ] 画像が全てアップロードできるかを確認する(edit_icon_screen)
+
 - [ ] 戻った時に状態変化をさせてあげたい→Loading画面で反映させた方がいいかも？？(edit_icon_screen)
 - [ ] 更新の処理がうまくいってない(edit_icon_screen)
 - [ ] 追加ボタンのデザインを考え直す(time_line_root_screen)
-- [ ] 画像が全てアップロードできるかを確認する(post_screen)
-- [ ] 画像が全てアップロードできるかを確認する(post_screen)
+- [ ] アイコンを追加する。
+- [ ] アプリ名を変更する。
+- [ ] 起動画面を追加する。
+- [ ] ログインした時のLoadingを追加する。
+- [ ] 投稿した時のLoadingを追加する。
 　
 - [ ] 一列あたりの表示数を変更できるようにしたい。(time_line_image_screen)
 - [ ] いいね機能を実装したい(time_line_details)
@@ -18,6 +19,11 @@
 - [ ] パスワードを変更できるようにしたい。
 　
 ## 完了リスト
+- [x] 画像が全てアップロードできるかを確認する(edit_icon_screen)
+- [x] 画像が全てアップロードできるかを確認する(edit_icon_screen)
+- [x] 画像が全てアップロードできるかを確認する(register_screen)
+- [x] 画像が全てアップロードできるかを確認する(post_screen)
+- [x] 画像が全てアップロードできるかを確認する(post_screen)
 - [x] パスワード変更画面を作成する。(setting_screen)
 - [x] アイコンの変更画面を作成する。(setting_screen)
 - [x] アイコンの変更画面を追加する。(setting_screen)
