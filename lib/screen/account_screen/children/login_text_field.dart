@@ -6,10 +6,12 @@ class LoginTextFieldItem extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.hintText,
+    required this.textInputType,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String hintText;
+  final TextInputType textInputType;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class LoginTextFieldItem extends StatelessWidget {
         width: 300.w,
         child: TextField(
           controller: controller,
+          keyboardType: textInputType,
           style: TextStyle(
             fontSize: 20.w,
           ),

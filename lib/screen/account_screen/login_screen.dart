@@ -65,11 +65,13 @@ class _LoginScreenState extends State<LoginScreen> {
               LoginTextFieldItem(
                 controller: emailController,
                 hintText: 'メールアドレス',
+                textInputType: TextInputType.emailAddress,
               ),
               const Spacer(),
               LoginTextFieldItem(
                 controller: passController,
                 hintText: 'パスワード',
+                textInputType: TextInputType.visiblePassword,
               ),
               const Spacer(),
               RichText(
