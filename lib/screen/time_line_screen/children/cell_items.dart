@@ -1,9 +1,12 @@
+import 'package:book_instagram_for_firebase/firebase/authentication.dart';
+import 'package:book_instagram_for_firebase/firebase/post_firebase.dart';
 import 'package:book_instagram_for_firebase/model/account.dart';
 import 'package:book_instagram_for_firebase/model/post.dart';
 import 'package:book_instagram_for_firebase/screen/time_line_details/time_line_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
 import 'border_item.dart';
 
@@ -26,6 +29,18 @@ class CellItems extends StatefulWidget {
 }
 
 class _CellItemsState extends State<CellItems> {
+  bool isMyAccount = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.post.postAccountId == Authentication.myAccount!.id) {
+      isMyAccount = true;
+    } else {
+      isMyAccount = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -75,6 +90,16 @@ class _CellItemsState extends State<CellItems> {
                           ),
                         ),
                         const Spacer(),
+                        isMyAccount
+                            ? IconButton(
+                                onPressed: openDeleteDialog,
+                                icon: HeroIcon(
+                                  HeroIcons.dotsHorizontal,
+                                  color: Colors.black,
+                                  size: 30.w,
+                                ),
+                              )
+                            : Container(),
                         SizedBox(width: 10.w),
                       ],
                     ),
@@ -137,6 +162,53 @@ class _CellItemsState extends State<CellItems> {
           ],
         ),
       ),
+    );
+  }
+
+  void openDeleteDialog() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text("投稿の削除の確認"),
+          content: Text(
+            "\nこの投稿を削除します。\n"
+            "よろしいですか？\n",
+            style: TextStyle(
+              fontSize: 17.w,
+            ),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text(
+                "キャンセル",
+                style: TextStyle(
+                  color: Colors.blue,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            CupertinoDialogAction(
+              child: const Text(
+                "OK",
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+              onPressed: () {
+                PostFireStore.deletePost(
+                  widget.post,
+                  widget.postAccount,
+                );
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
